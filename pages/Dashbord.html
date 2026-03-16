@@ -1,0 +1,1210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DentalCare Pro | Dashboard</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Google Font - Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0b0c10, #1a1e2b);
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background Teeth */
+      .floating-teeth {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .floating-teeth i {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.02);
+        font-size: 80px;
+        animation: float 10s infinite ease-in-out;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-50px) rotate(10deg);
+        }
+      }
+
+      /* Main Layout */
+      .dashboard-wrapper {
+        display: flex;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ========== SIDEBAR - FLEX LAYOUT ========== */
+      .sidebar {
+        width: 110px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        position: fixed;
+        height: 100vh;
+        z-index: 100;
+        overflow-y: auto;
+      }
+
+      .logo-area {
+        margin-bottom: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #00c6fb, #005bea);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px;
+      }
+
+      .logo-icon i {
+        font-size: 25px;
+        color: white;
+      }
+
+      .logo-text {
+        color: white;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        opacity: 0.8;
+      }
+
+      .nav-menu {
+        flex: 1;
+        width: 100%;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .nav-item {
+        list-style: none;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .nav-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0;
+        width: 90%;
+        color: rgba(255, 255, 255, 0.5);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .nav-link i {
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
+
+      .nav-link span {
+        font-size: 9px;
+        font-weight: 500;
+        text-align: center;
+        line-height: 1.2;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: #00c6fb;
+        background: linear-gradient(90deg, rgba(0, 198, 255, 0.1), transparent);
+        border-left-color: #00c6fb;
+      }
+
+      .logout-item {
+        margin-top: auto;
+        margin-bottom: 10px;
+      }
+
+      .logout-link {
+        color: rgba(255, 99, 99, 0.7);
+      }
+
+      /* ========== MAIN CONTENT ========== */
+      .main-content {
+        flex: 1;
+        margin-left: 110px;
+        padding: 20px;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Header */
+      .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .header-title h1 {
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+
+      .header-title p {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 12px;
+        margin: 0;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .notification-badge {
+        position: relative;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 18px;
+      }
+
+      .badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #00c6fb;
+        color: white;
+        font-size: 9px;
+        padding: 2px 5px;
+        border-radius: 10px;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 30px;
+      }
+
+      .user-avatar {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, #00c6fb, #005bea);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 14px;
+      }
+
+      .user-info {
+        line-height: 1.2;
+      }
+
+      .user-name {
+        color: white;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .user-role {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 10px;
+      }
+
+      /* Section Container */
+      .section-container {
+        display: none;
+      }
+
+      .section-container.active {
+        display: block;
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(0, 198, 255, 0.3);
+      }
+
+      .stat-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #00c6fb, #005bea);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+      }
+
+      .stat-icon i {
+        font-size: 20px;
+        color: white;
+      }
+
+      .stat-info h3 {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 12px;
+        font-weight: 400;
+        margin-bottom: 5px;
+      }
+
+      .stat-info h2 {
+        color: white;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+
+      .stat-info p {
+        color: #00c6fb;
+        font-size: 10px;
+      }
+
+      /* Management Section */
+      .management-section {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 20px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .section-header h2 {
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .section-header h2 i {
+        color: #00c6fb;
+        margin-right: 8px;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 30px;
+        padding: 6px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .search-box i {
+        color: rgba(255, 255, 255, 0.5);
+        margin-right: 8px;
+        font-size: 14px;
+      }
+
+      .search-box input {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 13px;
+        outline: none;
+        min-width: 180px;
+      }
+
+      .search-box input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      /* Form Grid */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 12px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .form-group label i {
+        color: #00c6fb;
+        margin-right: 5px;
+        font-size: 12px;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: white;
+        font-size: 13px;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #00c6fb;
+      }
+
+      /* Compact Buttons */
+      .button-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 15px 0 20px;
+        justify-content: flex-start;
+      }
+
+      .btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+      }
+
+      .btn i {
+        font-size: 12px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #00c6fb, #005bea);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 198, 255, 0.2);
+      }
+
+      .btn-warning {
+        background: rgba(245, 158, 11, 0.2);
+        color: #f59e0b;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-danger {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+
+      .btn-success {
+        background: rgba(16, 185, 129, 0.2);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+
+      /* Table */
+      .table-responsive {
+        overflow-x: auto;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.01);
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .table thead th {
+        padding: 10px 12px;
+        text-align: left;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 500;
+        font-size: 12px;
+        background: rgba(0, 198, 255, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .table tbody td {
+        padding: 10px 12px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 5px;
+      }
+
+      .action-btn {
+        width: 26px;
+        height: 26px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      .action-btn.edit {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+      }
+
+      .action-btn.delete {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+      }
+
+      /* Loading Overlay */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease;
+      }
+
+      .loading-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .tooth-spinner {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #00c6fb, #005bea);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: spin 2s linear infinite;
+      }
+
+      .tooth-spinner i {
+        font-size: 30px;
+        color: white;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 80px;
+        }
+        .main-content {
+          margin-left: 80px;
+          padding: 15px;
+        }
+        .nav-link span {
+          font-size: 8px;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="floating-teeth">
+      <i class="fas fa-tooth"></i>
+      <i class="fas fa-tooth"></i>
+      <i class="fas fa-tooth"></i>
+      <i class="fas fa-tooth"></i>
+      <i class="fas fa-tooth"></i>
+      <i class="fas fa-tooth"></i>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="tooth-spinner">
+        <i class="fas fa-tooth"></i>
+      </div>
+    </div>
+
+    <!-- Dashboard Wrapper -->
+    <div class="dashboard-wrapper">
+      <!-- Sidebar Navigation - FLEX LAYOUT with Screenshot Options -->
+      <nav class="sidebar">
+        <div class="logo-area">
+          <div class="logo-icon">
+            <i class="fas fa-tooth"></i>
+          </div>
+          <div class="logo-text">DENTAL<br />CARE</div>
+        </div>
+
+        <ul class="nav-menu">
+          <!-- Dashboard -->
+          <li class="nav-item">
+            <a href="#" class="nav-link active" data-section="dashboard">
+              <i class="fas fa-home"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <!-- Hospital Departments -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="departments">
+              <i class="fas fa-hospital"></i>
+              <span>Hospital<br />Departments</span>
+            </a>
+          </li>
+          <!-- Doctor -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="doctor">
+              <i class="fas fa-user-md"></i>
+              <span>Doctor</span>
+            </a>
+          </li>
+          <!-- Patient -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="patient">
+              <i class="fas fa-users"></i>
+              <span>Patient</span>
+            </a>
+          </li>
+          <!-- Doctor Schedule -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="doctorSchedule">
+              <i class="fas fa-calendar-alt"></i>
+              <span>Doctor<br />Schedule</span>
+            </a>
+          </li>
+          <!-- Patient Appointment -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="patientAppointment">
+              <i class="fas fa-clock"></i>
+              <span>Patient<br />Appointment</span>
+            </a>
+          </li>
+          <!-- Patient Case Studies -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="caseStudies">
+              <i class="fas fa-file-medical"></i>
+              <span>Patient Case<br />Studies</span>
+            </a>
+          </li>
+          <!-- Prescription -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="prescription">
+              <i class="fas fa-prescription"></i>
+              <span>Prescription</span>
+            </a>
+          </li>
+          <!-- Insurances -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="insurances">
+              <i class="fas fa-shield-alt"></i>
+              <span>Insurances</span>
+            </a>
+          </li>
+          <!-- Lab -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="lab">
+              <i class="fas fa-flask"></i>
+              <span>Lab</span>
+            </a>
+          </li>
+          <!-- Financing -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="financing">
+              <i class="fas fa-dollar-sign"></i>
+              <span>Financing</span>
+            </a>
+          </li>
+          <!-- Front End -->
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-section="frontEnd">
+              <i class="fas fa-laptop"></i>
+              <span>Front End</span>
+            </a>
+          </li>
+
+          <!-- Logout at bottom -->
+          <li class="nav-item logout-item">
+            <a href="#" class="nav-link logout-link" id="logoutBtn">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+          <div class="header-title">
+            <h1>Good Morning, Dr. Silva</h1>
+            <p>Welcome to DentalCare Pro</p>
+          </div>
+          <div class="header-actions">
+            <div class="notification-badge">
+              <i class="fas fa-bell"></i>
+              <span class="badge">3</span>
+            </div>
+            <div class="user-profile">
+              <div class="user-avatar">
+                <i class="fas fa-user-md"></i>
+              </div>
+              <div class="user-info">
+                <div class="user-name">Dr. Silva</div>
+                <div class="user-role">Administrator</div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section id="dashboardSection" class="section-container active">
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Total Patients</h3>
+                <h2>1,245</h2>
+                <p>↑ 12%</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Appointments</h3>
+                <h2>18</h2>
+                <p>Today</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-procedures"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Treatments</h3>
+                <h2>7</h2>
+                <p>Ongoing</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Revenue</h3>
+                <h2>$2,450</h2>
+                <p>Today</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="management-section">
+            <h3 class="section-header" style="margin-bottom: 15px">
+              <span><i class="fas fa-history"></i> Recent Activity</span>
+            </h3>
+            <div class="table-responsive">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <i class="fas fa-user-plus" style="color: #00c6fb"></i>
+                      New patient registered: Mrs. Perera
+                    </td>
+                    <td style="text-align: right">5 min ago</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <i
+                        class="fas fa-notes-medical"
+                        style="color: #00c6fb"
+                      ></i>
+                      Treatment completed for Mr. Fernando
+                    </td>
+                    <td style="text-align: right">30 min ago</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <i
+                        class="fas fa-shopping-cart"
+                        style="color: #00c6fb"
+                      ></i>
+                      New order placed #INV-2024-001
+                    </td>
+                    <td style="text-align: right">1 hour ago</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Hospital Departments Section -->
+        <section id="departmentsSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-hospital"></i> Hospital Departments</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Manage hospital departments and specialties
+            </p>
+
+            <div class="table-responsive" style="margin-top: 20px">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Department ID</th>
+                    <th>Department Name</th>
+                    <th>Head of Department</th>
+                    <th>Total Staff</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>DEPT-001</td>
+                    <td>General Dentistry</td>
+                    <td>Dr. Perera</td>
+                    <td>12</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn edit">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>DEPT-002</td>
+                    <td>Orthodontics</td>
+                    <td>Dr. Silva</td>
+                    <td>8</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn edit">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Doctor Section -->
+        <section id="doctorSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-user-md"></i> Doctors</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Manage doctor profiles and information
+            </p>
+
+            <div class="button-group">
+              <button class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Doctor
+              </button>
+              <button class="btn btn-secondary">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Specialization</th>
+                    <th>Department</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>DOC-001</td>
+                    <td>Dr. Kamal Perera</td>
+                    <td>General Dentistry</td>
+                    <td>General Dentistry</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn edit">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>DOC-002</td>
+                    <td>Dr. Nimali Silva</td>
+                    <td>Orthodontics</td>
+                    <td>Orthodontics</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button class="action-btn edit">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Patient Section -->
+        <section id="patientSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-users"></i> Patients</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Manage patient records
+            </p>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label><i class="fas fa-id-card"></i> Patient ID</label>
+                <input type="text" class="form-control" placeholder="P-001" />
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-user"></i> Patient Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter name"
+                />
+              </div>
+            </div>
+
+            <div class="button-group">
+              <button class="btn btn-primary">
+                <i class="fas fa-save"></i> Save
+              </button>
+              <button class="btn btn-warning">
+                <i class="fas fa-edit"></i> Update
+              </button>
+              <button class="btn btn-danger">
+                <i class="fas fa-trash"></i> Clear
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Last Visit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>P-001</td>
+                    <td>John Silva</td>
+                    <td>077-1234567</td>
+                    <td>2024-03-15</td>
+                  </tr>
+                  <tr>
+                    <td>P-002</td>
+                    <td>Mary Perera</td>
+                    <td>078-7654321</td>
+                    <td>2024-03-14</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Doctor Schedule Section -->
+        <section id="doctorScheduleSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-calendar-alt"></i> Doctor Schedule</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Manage doctor availability and shifts
+            </p>
+          </div>
+        </section>
+
+        <!-- Patient Appointment Section -->
+        <section id="patientAppointmentSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-clock"></i> Patient Appointment</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Schedule and manage appointments
+            </p>
+          </div>
+        </section>
+
+        <!-- Patient Case Studies Section -->
+        <section id="caseStudiesSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-file-medical"></i> Patient Case Studies</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Medical histories and case records
+            </p>
+          </div>
+        </section>
+
+        <!-- Prescription Section -->
+        <section id="prescriptionSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-prescription"></i> Prescriptions</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Manage patient prescriptions
+            </p>
+          </div>
+        </section>
+
+        <!-- Insurances Section -->
+        <section id="insurancesSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-shield-alt"></i> Insurances</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Insurance providers and claims
+            </p>
+          </div>
+        </section>
+
+        <!-- Lab Section -->
+        <section id="labSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-flask"></i> Lab</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Laboratory tests and results
+            </p>
+          </div>
+        </section>
+
+        <!-- Financing Section -->
+        <section id="financingSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-dollar-sign"></i> Financing</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Financial records and payments
+            </p>
+          </div>
+        </section>
+
+        <!-- Front End Section -->
+        <section id="frontEndSection" class="section-container">
+          <div class="management-section">
+            <h2><i class="fas fa-laptop"></i> Front End</h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Website and patient portal settings
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Login Page -->
+    <div class="login-page" id="loginPage" style="display: none">
+      <div class="login-card">
+        <div class="login-icon">
+          <i class="fas fa-tooth"></i>
+        </div>
+        <h2>Welcome Back</h2>
+        <p>Login to your dental clinic account</p>
+
+        <input
+          type="email"
+          class="login-input"
+          placeholder="Email Address"
+          id="loginEmail"
+        />
+        <input
+          type="password"
+          class="login-input"
+          placeholder="Password"
+          id="loginPassword"
+        />
+
+        <button class="login-btn" id="loginBtn">Login Now</button>
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        // Navigation - FLEX layout: icon bar controls right side data
+        $(".nav-link").click(function (e) {
+          e.preventDefault();
+
+          // Remove active class from all links
+          $(".nav-link").removeClass("active");
+          // Add active class to clicked link
+          $(this).addClass("active");
+
+          // Get section to show
+          const section = $(this).data("section");
+
+          // Hide all sections
+          $(".section-container").removeClass("active");
+
+          // Show selected section (convert camelCase to proper ID)
+          let sectionId = section + "Section";
+          $("#" + sectionId).addClass("active");
+        });
+
+        // Logout
+        $("#logoutBtn").click(function (e) {
+          e.preventDefault();
+          $("#loadingOverlay").addClass("active");
+          setTimeout(function () {
+            $("#loadingOverlay").removeClass("active");
+            $(".dashboard-wrapper").hide();
+            $("#loginPage").show();
+          }, 1000);
+        });
+
+        // Login
+        $("#loginBtn").click(function () {
+          const email = $("#loginEmail").val();
+          const password = $("#loginPassword").val();
+
+          if (email && password) {
+            $("#loadingOverlay").addClass("active");
+            setTimeout(function () {
+              $("#loadingOverlay").removeClass("active");
+              $("#loginPage").hide();
+              $(".dashboard-wrapper").show();
+            }, 1500);
+          } else {
+            alert("Please enter email and password");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

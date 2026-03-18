@@ -118,13 +118,11 @@ $("#SaveBtnBostrapModal").on("click", () => {
       navigator: "physical",
     }),
     success: function (data, textStatus, jqXHR) {
-      // data = already parsed JSON
       console.log(data);
 
       if (data.status === 201) {
         console.log(data.messege);
 
-        // token save
         localStorage.setItem("token", data.data);
 
         Swal.fire({
@@ -138,7 +136,6 @@ $("#SaveBtnBostrapModal").on("click", () => {
           timer: 2000,
           timerProgressBar: true,
         }).then(() => {
-          // window.location.href = "index.html";
           cleare();
           getAll();
         });
@@ -155,13 +152,11 @@ $("#SaveBtnBostrapModal").on("click", () => {
     },
     error: function (jqXHR) {
       console.log("============");
-      // let body = jqXHR.responseJSON;
-      // alert(body);
       let message = "";
       if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
         message = jqXHR.responseJSON.message;
       } else {
-        message = jqXHR.responseText; // fallback: raw text
+        message = jqXHR.responseText;
       }
       console.log("Error message from server:", message);
 
@@ -191,8 +186,6 @@ $("#SaveBtnBostrapModal").on("click", () => {
       });
     },
   });
-
-  // 👉 API call එක මෙතන දාන්න පුළුවන්
 });
 
 function showAddMode() {
@@ -220,8 +213,7 @@ $("#tbodyPeation").on("click", "tr", function () {
   const gender = $(this).find("td:eq(9)").text().trim();
   const navigeter = $(this).find("td:eq(11)").text().trim();
   localStorage.setItem("navigeter", navigeter);
-  // console.log("+++" + navigeter);
-  // const gender = $(this).find("td:eq(9)").text().replace(/\s+/g, "").trim();
+
   const nic = $(this).find("td:eq(10)").text();
 
   const gendernew = gender.trim();
@@ -269,7 +261,7 @@ function cleare() {
 function getAll() {
   $("#addCustomerModal").on("hidden.bs.modal", () => {
     cleare();
-    showAddMode(); // default state
+    showAddMode();
   });
   $.ajax({
     url: "http://localhost:8080/api/v1/dentalcare/auth/getPeations",
@@ -306,6 +298,7 @@ function getAll() {
 
 window.addEventListener("DOMContentLoaded", () => {
   getAll();
+  loadPieChart();
 });
 
 $("#DeleteBtnBostrapModal").on("click", () => {
@@ -567,3 +560,161 @@ function searchPations() {
     error: function (respons) {},
   });
 }
+
+// Patient Pie Chart
+const pieCtx = document.getElementById("patientPieChart").getContext("2d");
+new Chart(pieCtx, {
+  type: "pie",
+  data: {
+    labels: [
+      "0-18 Years",
+      "19-35 Years",
+      "36-50 Years",
+      "51-65 Years",
+      "65+ Years",
+    ],
+    datasets: [
+      {
+        data: [156, 423, 389, 201, 76],
+        backgroundColor: [
+          "#00c6fb",
+          "#f093fb",
+          "#fa709a",
+          "#4facfe",
+          "#667eea",
+        ],
+        borderWidth: 0,
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          color: "rgba(255,255,255,0.8)",
+          font: {
+            size: 12,
+          },
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const label = context.label || "";
+            const value = context.raw || 0;
+            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+            const percentage = Math.round((value / total) * 100);
+            return `${label}: ${value} patients (${percentage}%)`;
+          },
+        },
+      },
+    },
+  },
+});
+
+// ================= CHART CODE =================
+const API_BASE_URL = "http://localhost:8080/api/v1/dentalcare/auth";
+
+async function loadPieChart() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/age-stats`);
+    const data = await response.json();
+
+    if (data.status === 200) {
+      const stats = data.data;
+
+      if (
+        !stats ||
+        !stats.ageDistribution ||
+        stats.ageDistribution.length === 0
+      ) {
+        console.log("No data available");
+        return;
+      }
+
+      const ageDistribution = stats.ageDistribution;
+      const totalPatients = stats.totalPatients;
+      const labels = ageDistribution.map((item) => item.ageGroup);
+      const counts = ageDistribution.map((item) => parseInt(item.count));
+
+      const ctx = document.getElementById("patientPieChart").getContext("2d");
+
+      if (window.patientPieChart) {
+        window.patientPieChart.destroy();
+      }
+
+      window.patientPieChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              data: counts,
+              backgroundColor: [
+                "#00c6fb", // 0-18
+                "#f093fb", // 19-35
+                "#fa709a", // 36-50
+                "#4facfe", // 51-65
+                "#667eea", // 65+
+              ],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                color: "rgba(255,255,255,0.8)",
+                font: { size: 12 },
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  const label = context.label || "";
+                  const value = context.raw || 0;
+                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                  const percentage = ((value / total) * 100).toFixed(1);
+                  return `${label}: ${value} patients (${percentage}%)`;
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const totalElement = document.getElementById("totalPatientsCount");
+      if (totalElement) {
+        totalElement.innerHTML = `Total: ${totalPatients}`;
+      }
+    }
+  } catch (error) {
+    console.error("Error loading pie chart:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    loadPieChart();
+  }, 500);
+
+  const refreshBtn = document.getElementById("refreshId");
+  if (refreshBtn) {
+    refreshBtn.addEventListener("click", function () {
+      loadPieChart();
+    });
+  }
+});
+
+document
+  .getElementById("saveBtnPationsection")
+  ?.addEventListener("click", function () {
+    $("#addCustomerModal").modal("show");
+  });

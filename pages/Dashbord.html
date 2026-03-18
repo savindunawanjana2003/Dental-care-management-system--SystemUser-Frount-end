@@ -254,9 +254,9 @@
           </li>
           <!-- Prescription -->
           <li class="nav-item">
-            <a href="#" class="nav-link" data-section="prescription">
+            <a href="#" class="nav-link" data-section="systemUsers">
               <i class="fas fa-prescription"></i>
-              <span>Prescription</span>
+              <span>System users</span>
             </a>
           </li>
           <!-- Insurances -->
@@ -544,27 +544,7 @@
                   onkeyup="searchPations()"
                 />
               </div>
-              <!-- <div class="form-group">
-                <label><i class="fas fa-user"></i> Patient Name</label>
-                <inputsaveBtnPationsection
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter name"
-                />
-              </div> -->
             </div>
-
-            <!-- <div class="button-group">
-              <button class="btn btn-primary" id="saveBtnPationsection">
-                <i class="fas fa-save"></i> Save
-              </button>
-              <button class="btn btn-warning">
-                <i class="fas fa-edit"></i> Update
-              </button>
-              <button class="btn btn-danger">
-                <i class="fas fa-trash"></i> Clear
-              </button>
-            </div> -->
 
             <div class="button-group">
               <button class="btn btn-primary" id="saveBtnPationsection">
@@ -595,22 +575,40 @@
                     <th>navigator</th>
                   </tr>
                 </thead>
-                <tbody id="tbodyPeation">
-                  <!-- <tr>
-                    <td>P-001</td>
-                    <td>John Silva</td>
-                    <td>077-1234567</td>
-                    <td>2024-03-15</td>
-                  </tr>
-                  <tr>
-                    <td>P-002</td>
-                    <td>Mary Perera</td>
-                    <td>078-7654321</td>
-                    <td>2024-03-14</td>
-                  </tr> -->
-                </tbody>
+                <tbody id="tbodyPeation"></tbody>
               </table>
             </div>
+            <!-- ===============Chart====================== -->
+
+            <div
+              style="
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border-radius: 15px;
+                padding: 20px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+              "
+            >
+              <h4 style="color: white; margin-bottom: 20px; text-align: center">
+                <i
+                  class="fas fa-chart-pie"
+                  style="margin-right: 10px; color: #00c6fb"
+                ></i>
+                Patient Age Distribution
+                <span
+                  id="totalPatientsCount"
+                  style="font-size: 14px; color: #00c6fb; margin-left: 10px"
+                ></span>
+              </h4>
+              <div style="display: flex; justify-content: center">
+                <canvas
+                  id="patientPieChart"
+                  style="width: 100%; max-width: 400px; height: 300px"
+                ></canvas>
+              </div>
+            </div>
+            <!-- ========================= -->
           </div>
         </section>
 
@@ -644,15 +642,757 @@
           </div>
         </section>
 
-        <!-- Prescription Section -->
-        <section id="prescriptionSection" class="section-container">
+        <!-- SystemUser Section -->
+        <!-- <section id="prescriptionSection" class="section-container">
           <div class="management-section">
             <h2><i class="fas fa-prescription"></i> Prescriptions</h2>
             <p style="color: rgba(255, 255, 255, 0.6)">
               Manage patient prescriptions
             </p>
           </div>
+        </section> -->
+        <!-- System Users Section -->
+        <section id="systemUsersSection" class="section-container">
+          <div class="management-section">
+            <h2 style="color: aliceblue">
+              <i class="fas fa-users-cog"></i> System Users
+            </h2>
+            <p style="color: rgba(255, 255, 255, 0.6)">
+              Manage system users (Doctors, Cashiers, Receptionists, Nurses,
+              Owners)
+            </p>
+
+            <!-- Stats Cards -->
+            <div
+              class="patient-stats-grid"
+              style="
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 15px;
+                margin-bottom: 30px;
+              "
+            >
+              <!-- Total Users Card -->
+              <div
+                style="
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  padding: 15px;
+                  border-radius: 15px;
+                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <div>
+                    <p
+                      style="
+                        color: rgba(255, 255, 255, 0.8);
+                        margin: 0;
+                        font-size: 12px;
+                      "
+                    >
+                      Total Users
+                    </p>
+                    <h3
+                      style="color: white; margin: 5px 0; font-size: 24px"
+                      id="totalUsers"
+                    >
+                      24
+                    </h3>
+                  </div>
+                  <div
+                    style="
+                      background: rgba(255, 255, 255, 0.2);
+                      padding: 10px;
+                      border-radius: 50%;
+                    "
+                  >
+                    <i
+                      class="fas fa-users"
+                      style="color: white; font-size: 24px"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Doctors Card -->
+              <div
+                style="
+                  background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+                  padding: 15px;
+                  border-radius: 15px;
+                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <div>
+                    <p
+                      style="
+                        color: rgba(255, 255, 255, 0.8);
+                        margin: 0;
+                        font-size: 12px;
+                      "
+                    >
+                      Doctors
+                    </p>
+                    <h3
+                      style="color: white; margin: 5px 0; font-size: 24px"
+                      id="totalDoctors"
+                    >
+                      8
+                    </h3>
+                  </div>
+                  <div
+                    style="
+                      background: rgba(255, 255, 255, 0.2);
+                      padding: 10px;
+                      border-radius: 50%;
+                    "
+                  >
+                    <i
+                      class="fas fa-user-md"
+                      style="color: white; font-size: 24px"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cashiers Card -->
+              <div
+                style="
+                  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                  padding: 15px;
+                  border-radius: 15px;
+                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <div>
+                    <p
+                      style="
+                        color: rgba(255, 255, 255, 0.8);
+                        margin: 0;
+                        font-size: 12px;
+                      "
+                    >
+                      Cashiers
+                    </p>
+                    <h3
+                      style="color: white; margin: 5px 0; font-size: 24px"
+                      id="totalCashiers"
+                    >
+                      4
+                    </h3>
+                  </div>
+                  <div
+                    style="
+                      background: rgba(255, 255, 255, 0.2);
+                      padding: 10px;
+                      border-radius: 50%;
+                    "
+                  >
+                    <i
+                      class="fas fa-cash-register"
+                      style="color: white; font-size: 24px"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Receptionists Card -->
+              <div
+                style="
+                  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+                  padding: 15px;
+                  border-radius: 15px;
+                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <div>
+                    <p
+                      style="
+                        color: rgba(255, 255, 255, 0.8);
+                        margin: 0;
+                        font-size: 12px;
+                      "
+                    >
+                      Receptionists
+                    </p>
+                    <h3
+                      style="color: white; margin: 5px 0; font-size: 24px"
+                      id="totalReceptionists"
+                    >
+                      5
+                    </h3>
+                  </div>
+                  <div
+                    style="
+                      background: rgba(255, 255, 255, 0.2);
+                      padding: 10px;
+                      border-radius: 50%;
+                    "
+                  >
+                    <i
+                      class="fas fa-phone-alt"
+                      style="color: white; font-size: 24px"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nurses Card -->
+              <div
+                style="
+                  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+                  padding: 15px;
+                  border-radius: 15px;
+                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <div>
+                    <p
+                      style="
+                        color: rgba(255, 255, 255, 0.8);
+                        margin: 0;
+                        font-size: 12px;
+                      "
+                    >
+                      Nurses
+                    </p>
+                    <h3
+                      style="color: white; margin: 5px 0; font-size: 24px"
+                      id="totalNurses"
+                    >
+                      6
+                    </h3>
+                  </div>
+                  <div
+                    style="
+                      background: rgba(255, 255, 255, 0.2);
+                      padding: 10px;
+                      border-radius: 50%;
+                    "
+                  >
+                    <i
+                      class="fas fa-user-nurse"
+                      style="color: white; font-size: 24px"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="form-grid">
+              <div class="form-group">
+                <label><i class="fas fa-search"></i> Search Users</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search by name, email or role"
+                  id="searchUserBar"
+                  onkeyup="searchUsers()"
+                />
+              </div>
+            </div>
+
+            <!-- Button Group -->
+            <div class="button-group">
+              <button
+                class="btn btn-primary"
+                id="addUserBtn"
+                data-bs-toggle="modal"
+                data-bs-target="#addUserModal"
+              >
+                <i class="fas fa-user-plus"></i> Add User
+              </button>
+              <button class="btn btn-secondary" id="refreshUsersBtn">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Department</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Last Login</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                  <!-- Sample Data -->
+                  <tr>
+                    <td>U-001</td>
+                    <td>Dr. Kamal Perera</td>
+                    <td>kamal.perera@dental.lk</td>
+                    <td>
+                      <span
+                        style="
+                          background: #00c6fb;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Doctor</span
+                      >
+                    </td>
+                    <td>Orthodontics</td>
+                    <td>077-1234567</td>
+                    <td>
+                      <span
+                        style="
+                          background: #4caf50;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Active</span
+                      >
+                    </td>
+                    <td>2024-03-15 09:30 AM</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button
+                          class="action-btn edit"
+                          onclick="editUser('U-001')"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          class="action-btn delete"
+                          onclick="deleteUser('U-001')"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <button
+                          class="action-btn view"
+                          onclick="viewUser('U-001')"
+                        >
+                          <i class="fas fa-eye"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>U-002</td>
+                    <td>Nimali Silva</td>
+                    <td>nimali.silva@dental.lk</td>
+                    <td>
+                      <span
+                        style="
+                          background: #f093fb;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Cashier</span
+                      >
+                    </td>
+                    <td>Finance</td>
+                    <td>078-7654321</td>
+                    <td>
+                      <span
+                        style="
+                          background: #4caf50;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Active</span
+                      >
+                    </td>
+                    <td>2024-03-15 08:45 AM</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button
+                          class="action-btn edit"
+                          onclick="editUser('U-002')"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          class="action-btn delete"
+                          onclick="deleteUser('U-002')"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <button
+                          class="action-btn view"
+                          onclick="viewUser('U-002')"
+                        >
+                          <i class="fas fa-eye"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>U-003</td>
+                    <td>Sunil Fernando</td>
+                    <td>sunil.fernando@dental.lk</td>
+                    <td>
+                      <span
+                        style="
+                          background: #4facfe;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Receptionist</span
+                      >
+                    </td>
+                    <td>Front Desk</td>
+                    <td>071-2345678</td>
+                    <td>
+                      <span
+                        style="
+                          background: #4caf50;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Active</span
+                      >
+                    </td>
+                    <td>2024-03-15 08:30 AM</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button
+                          class="action-btn edit"
+                          onclick="editUser('U-003')"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          class="action-btn delete"
+                          onclick="deleteUser('U-003')"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <button
+                          class="action-btn view"
+                          onclick="viewUser('U-003')"
+                        >
+                          <i class="fas fa-eye"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>U-004</td>
+                    <td>Mary Perera</td>
+                    <td>mary.perera@dental.lk</td>
+                    <td>
+                      <span
+                        style="
+                          background: #fa709a;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Nurse</span
+                      >
+                    </td>
+                    <td>General Dentistry</td>
+                    <td>072-3456789</td>
+                    <td>
+                      <span
+                        style="
+                          background: #4caf50;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Active</span
+                      >
+                    </td>
+                    <td>2024-03-14 05:15 PM</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button
+                          class="action-btn edit"
+                          onclick="editUser('U-004')"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          class="action-btn delete"
+                          onclick="deleteUser('U-004')"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <button
+                          class="action-btn view"
+                          onclick="viewUser('U-004')"
+                        >
+                          <i class="fas fa-eye"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>U-005</td>
+                    <td>Mr. Ranjith Silva</td>
+                    <td>ranjith.silva@dental.lk</td>
+                    <td>
+                      <span
+                        style="
+                          background: #667eea;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Owner</span
+                      >
+                    </td>
+                    <td>Management</td>
+                    <td>077-9876543</td>
+                    <td>
+                      <span
+                        style="
+                          background: #4caf50;
+                          padding: 5px 10px;
+                          border-radius: 20px;
+                          color: white;
+                          font-size: 12px;
+                        "
+                        >Active</span
+                      >
+                    </td>
+                    <td>2024-03-15 10:00 AM</td>
+                    <td>
+                      <div class="action-buttons">
+                        <button
+                          class="action-btn edit"
+                          onclick="editUser('U-005')"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button
+                          class="action-btn delete"
+                          onclick="deleteUser('U-005')"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <button
+                          class="action-btn view"
+                          onclick="viewUser('U-005')"
+                        >
+                          <i class="fas fa-eye"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </section>
+<!-- 
+        Add/Edit User Modal
+        <div class="modal fade" id="addUserModal" tabindex="-1">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5
+                  class="modal-title"
+                  style="color: rgba(240, 248, 255, 0.89)"
+                >
+                  <i class="fas fa-user-plus"></i> Add New User
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="userFullName"
+                      placeholder="Enter full name"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="userEmail"
+                      placeholder="Enter email"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" id="userRole">
+                      <option value="">Select Role</option>
+                      <option value="Doctor">Doctor</option>
+                      <option value="Cashier">Cashier</option>
+                      <option value="Receptionist">Receptionist</option>
+                      <option value="Nurse">Nurse</option>
+                      <option value="Owner">Owner</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Department</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="userDepartment"
+                      placeholder="Enter department"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="userPhone"
+                      placeholder="Enter phone number"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Username</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="userUsername"
+                      placeholder="Enter username"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="userPassword"
+                      placeholder="Enter password"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="userConfirmPassword"
+                      placeholder="Confirm password"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="userStatus">
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                      <option value="Suspended">Suspended</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Join Date</label>
+                    <input type="date" class="form-control" id="userJoinDate" />
+                  </div>
+                  <div class="col-12 mb-3">
+                    <label class="form-label">Address</label>
+                    <textarea
+                      class="form-control"
+                      id="userAddress"
+                      rows="2"
+                      placeholder="Enter address"
+                    ></textarea>
+                  </div>
+                  <div class="col-12 mb-3">
+                    <label class="form-label">Notes</label>
+                    <textarea
+                      class="form-control"
+                      id="userNotes"
+                      rows="2"
+                      placeholder="Additional notes..."
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button type="button" class="btn btn-primary" id="saveUserBtn">
+                  Save User
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  id="updateUserBtn"
+                  style="display: none"
+                >
+                  Update
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  id="deleteUserBtn"
+                  style="display: none"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div> -->
 
         <!-- Insurances Section -->
         <section id="insurancesSection" class="section-container">
@@ -722,8 +1462,11 @@
       </div>
     </div>
 
-    <!-- jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- jQuery -->
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="../js/dashbord.js"></script>
     <script src="../js/peation.js"></script>

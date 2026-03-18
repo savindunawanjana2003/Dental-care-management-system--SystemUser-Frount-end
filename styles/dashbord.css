@@ -602,3 +602,48 @@
           grid-template-columns: 1fr;
         }
       }
+
+/* Add this to your CSS file */
+
+.error-border {
+  border: 2px solid #dc3545 !important;
+  box-shadow: 0 0 5px rgba(220, 53, 69, 0.5) !important;
+  transition: all 0.3s ease;
+}
+/* Optional: Add a shake animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+.error-border {
+  border: 2px solid #dc3545 !important;
+  box-shadow: 0 0 5px rgba(220, 53, 69, 0.5) !important;
+  animation: shake 0.6s ease-in-out;
+}
+
+ #addCustomerModal input{
+  color: #1d1d1ca4;
+  border-color: #0c0102c4;
+  background-color: #f6ffcdf1;
+      }
+
+      #addCustomerModal{
+        background-color: #0303308c;
+      }
+
+      .modal-content{
+        border: 1px solid wheat;
+        background-color: #02424459;
+      }
+
+      .modal-content label{
+        color: whitesmoke;
+      }
+
+      .select-error {
+  border: 2px solid #dc3545 !important;
+  box-shadow: 0 0 6px rgba(220, 53, 69, 0.6);
+  background-color: #ffecec;
+}

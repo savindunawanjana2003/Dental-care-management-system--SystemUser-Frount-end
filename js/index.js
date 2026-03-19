@@ -153,6 +153,7 @@ $("#loginButten").on("click", () => {
     });
     return;
   }
+
   //  else if (!emailPattern.test(email)) {
   //   Swal.fire({
   //     icon: "error",
@@ -192,26 +193,44 @@ $("#loginButten").on("click", () => {
       email: "",
     }),
     success: function (data, textStatus, jqXHR) {
-      console.log(data);
+      // console.log(data);
+      localStorage.setItem("Rolle", data.message);
 
       if (data.status === 200) {
-        console.log(data.messege);
+        // console.log(data.messege);
 
         localStorage.setItem("usertoken", data.data);
 
         Swal.fire({
           icon: "success",
-          title: "Login Successful",
-          text: "Redirecting to home page...",
-          background: "#1e1e2f",
+          title: "LOGIN SUCCESSFUL",
+          html: `
+    <div style="font-family: 'Inter', sans-serif;">
+      <p style="margin: 10px 0; color: #e0e0e0;">Redirecting to dashboard...</p>
+      <div style="width: 100%; height: 2px; background: rgba(255,255,255,0.1); margin-top: 15px;">
+        <div id="progress" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00b09b, #96c93d); transition: width 2s linear;"></div>
+      </div>
+    </div>
+  `,
+          background: "rgba(255, 255, 255, 0.05)",
+          backdrop: "rgba(0,0,30,0.7)",
           color: "#ffffff",
-          iconColor: "#4caf50",
+          iconColor: "#96c93d",
           showConfirmButton: false,
           timer: 2000,
-          timerProgressBar: true,
+          didOpen: () => {
+            const progress = document.getElementById("progress");
+            if (progress) {
+              setTimeout(() => {
+                progress.style.width = "100%";
+              }, 50);
+            }
+          },
+          customClass: {
+            popup: "glassmorphism-popup",
+          },
         }).then(() => {
-          // cleare();
-          // getAll();
+          window.location.href = "../pages/Dashbord.html";
         });
       } else {
         Swal.fire({

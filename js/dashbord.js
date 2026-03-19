@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  const role = localStorage.getItem("Rolle");
+  // mata one  user roll eka anuwa  navebar eke thiyena  option walata accsess eka denna  
   // Navigation - FLEX layout: icon bar controls right side data
   $(".nav-link").click(function (e) {
     e.preventDefault();
@@ -8,7 +10,7 @@ $(document).ready(function () {
     // Add active class to clicked link
     $(this).addClass("active");
 
-    // Get section to show
+    // Get section to shows
     const section = $(this).data("section");
 
     // Hide all sections

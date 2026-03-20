@@ -230,7 +230,15 @@ $("#loginButten").on("click", () => {
             popup: "glassmorphism-popup",
           },
         }).then(() => {
-          window.location.href = "../pages/Dashbord.html";
+          // document.getElementById("loginSound").play();
+          // window.location.href = "../pages/Dashbord.html";
+          const audio = document.getElementById("loginSound");
+          audio.play();
+
+          // ⏳ wait karala redirect
+          setTimeout(() => {
+            window.location.href = "../pages/Dashbord.html";
+          }, 1500);
         });
       } else {
         Swal.fire({
@@ -252,6 +260,9 @@ $("#loginButten").on("click", () => {
         message = jqXHR.responseText;
       }
       console.log("Error message from server:", message);
+
+      const audio = document.getElementById("invalidSound");
+      audio.play();
 
       Swal.fire({
         icon: "error",

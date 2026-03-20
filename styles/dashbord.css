@@ -87,6 +87,8 @@
         color: white;
       }
 
+     
+
       .logo-text {
         color: white;
         font-size: 10px;
@@ -137,10 +139,17 @@
         line-height: 1.2;
       }
 
+       .nav-link:hover,
+      .nav-link.active2 {
+        color: #00c6fb;
+        background: linear-gradient(90deg, rgba(255, 0, 0, 0.438), transparent);
+        border-left-color: #00c6fb;
+      }
+
       .nav-link:hover,
       .nav-link.active {
         color: #00c6fb;
-        background: linear-gradient(90deg, rgba(0, 198, 255, 0.1), transparent);
+        background: linear-gradient(90deg, rgba(0, 204, 255, 0.103), transparent);
         border-left-color: #00c6fb;
       }
 
@@ -647,3 +656,42 @@
   box-shadow: 0 0 6px rgba(220, 53, 69, 0.6);
   background-color: #ffecec;
 }
+
+.disabled-link {
+  pointer-events: none;   /* click block karanawa */
+  opacity: 0.5;           /* fade effect */
+  cursor: not-allowed;    /* cursor change */
+}
+
+
+/* ==================system user==================== */
+
+
+.error-border {
+  border: 2px solid #ff4d4f !important;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.action-btn.edit:hover { background: #ffc107; color: #000; }
+.action-btn.delete:hover { background: #dc3545; color: #fff; }
+.action-btn.view:hover { background: #17a2b8; color: #fff; }

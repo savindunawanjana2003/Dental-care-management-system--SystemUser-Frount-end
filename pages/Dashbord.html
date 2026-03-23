@@ -54,8 +54,9 @@
                   type="text"
                   class="form-control"
                   id="userId"
-                  readonly
+                  
                   placeholder="Auto-generated"
+                  
                 />
               </div>
               <div class="col-md-6 mb-3">
@@ -81,7 +82,7 @@
                 />
               </div>
               <div class="col-md-6 mb-3">
-                <label class="form-label"
+                <label class="form-label" id="lblusername1"
                   >User name for System
                   <span class="text-danger">*</span></label
                 >
@@ -105,7 +106,7 @@
                   <option value="NURSE">Nurse</option>
                 </select>
               </div>
-              <div class="col-md-6 mb-3">
+              <!-- <div class="col-md-6 mb-3">
                 <label class="form-label">Department</label>
                 <input
                   type="text"
@@ -113,7 +114,8 @@
                   id="userDepartment"
                   placeholder="Enter department"
                 />
-              </div>
+              </div> -->
+              
               <div class="col-md-6 mb-3">
                 <label class="form-label"
                   >Phone Number <span class="text-danger">*</span></label
@@ -133,8 +135,19 @@
                   <option value="SUSPENDED">Suspended</option>
                 </select>
               </div>
+              <!-- ============================= -->
+    
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Is system user ?</label>
+                <select class="form-select" id="userType">
+                  <option value="SYSTEMUSER">System user</option>
+                  <!-- <option value="INACTIVE">Inactive</option> -->
+                  <option value="EMPLOYEE">Employee</option>
+                </select>
+              </div>
+              <!-- ======================================== -->
               <div class="col-md-6 mb-3" id="passwordField">
-                <label class="form-label"
+                <label id="passworlblId" class="form-label"
                   >Password <span class="text-danger">*</span></label
                 >
                 <input
@@ -145,7 +158,7 @@
                 />
               </div>
               <div class="col-md-6 mb-3" id="confirmPasswordField">
-                <label class="form-label"
+                <label  id="confirmpassworlblId" class="form-label"
                   >Confirm Password <span class="text-danger">*</span></label
                 >
                 <input
@@ -181,7 +194,7 @@
             <button type="button" class="btn btn-primary" id="saveUserBtn">
               Save User
             </button>
-            <!-- <button
+            <button
               type="button"
               class="btn btn-warning"
               id="updateUserBtn"
@@ -190,7 +203,7 @@
             >
               Update User
             </button>
-            <button
+            <!-- <button
               type="button"
               class="btn btn-danger"
               id="deleteUserBtn"
@@ -465,7 +478,7 @@
 
           <!-- Logout at bottom -->
           <li class="nav-item logout-item">
-            <a href="#" class="nav-link" id="logoutBtn">
+            <a href="#" class="nav-link" id="logoutBtn" data-section="logout">
               <i class="fas fa-sign-out-alt"></i>
               <span>Logout</span>
             </a>
@@ -1118,7 +1131,7 @@
             </div>
 
             <!-- Users Table -->
-            <div class="table-responsive">
+            <div class="table-responsive" id="system-UsersTable">
               <table class="table">
                 <thead>
                   <tr>
@@ -1130,283 +1143,35 @@
                     <th>Email</th>
                     <th>Created at</th>
                     <th>Actions</th>
+                    <th>Status</th>
+                    <th>Is_system_user</th>
                   </tr>
                 </thead>
                 <tbody id="usersTableBody">
                   <!-- Sample Data -->
-                  <tr>
-                    <td>U-001</td>
-                    <td>Dr. Kamal Perera</td>
-                    <td>kamal.perera@dental.lk</td>
-                    <td>
-                      <span
-                        style="
-                          background: #00c6fb;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Doctor</span
-                      >
-                    </td>
-                    <td>Orthodontics</td>
-                    <td>077-1234567</td>
-                    <td>
-                      <span
-                        style="
-                          background: #4caf50;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Active</span
-                      >
-                    </td>
-                    <td>2024-03-15 09:30 AM</td>
-                    <td>
-                      <div class="action-buttons">
-                        <button
-                          class="action-btn edit"
-                          onclick="editUser('U-001')"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          class="action-btn delete"
-                          onclick="deleteUser('U-001')"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          class="action-btn view"
-                          onclick="viewUser('U-001')"
-                        >
-                          <i class="fas fa-eye"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>U-002</td>
-                    <td>Nimali Silva</td>
-                    <td>nimali.silva@dental.lk</td>
-                    <td>
-                      <span
-                        style="
-                          background: #f093fb;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Cashier</span
-                      >
-                    </td>
-                    <td>Finance</td>
-                    <td>078-7654321</td>
-                    <td>
-                      <span
-                        style="
-                          background: #4caf50;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Active</span
-                      >
-                    </td>
-                    <td>2024-03-15 08:45 AM</td>
-                    <td>
-                      <div class="action-buttons">
-                        <button
-                          class="action-btn edit"
-                          onclick="editUser('U-002')"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          class="action-btn delete"
-                          onclick="deleteUser('U-002')"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          class="action-btn view"
-                          onclick="viewUser('U-002')"
-                        >
-                          <i class="fas fa-eye"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>U-003</td>
-                    <td>Sunil Fernando</td>
-                    <td>sunil.fernando@dental.lk</td>
-                    <td>
-                      <span
-                        style="
-                          background: #4facfe;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Receptionist</span
-                      >
-                    </td>
-                    <td>Front Desk</td>
-                    <td>071-2345678</td>
-                    <td>
-                      <span
-                        style="
-                          background: #4caf50;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Active</span
-                      >
-                    </td>
-                    <td>2024-03-15 08:30 AM</td>
-                    <td>
-                      <div class="action-buttons">
-                        <button
-                          class="action-btn edit"
-                          onclick="editUser('U-003')"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          class="action-btn delete"
-                          onclick="deleteUser('U-003')"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          class="action-btn view"
-                          onclick="viewUser('U-003')"
-                        >
-                          <i class="fas fa-eye"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>U-004</td>
-                    <td>Mary Perera</td>
-                    <td>mary.perera@dental.lk</td>
-                    <td>
-                      <span
-                        style="
-                          background: #fa709a;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Nurse</span
-                      >
-                    </td>
-                    <td>General Dentistry</td>
-                    <td>072-3456789</td>
-                    <td>
-                      <span
-                        style="
-                          background: #4caf50;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Active</span
-                      >
-                    </td>
-                    <td>2024-03-14 05:15 PM</td>
-                    <td>
-                      <div class="action-buttons">
-                        <button
-                          class="action-btn edit"
-                          onclick="editUser('U-004')"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          class="action-btn delete"
-                          onclick="deleteUser('U-004')"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          class="action-btn view"
-                          onclick="viewUser('U-004')"
-                        >
-                          <i class="fas fa-eye"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>U-005</td>
-                    <td>Mr. Ranjith Silva</td>
-                    <td>ranjith.silva@dental.lk</td>
-                    <td>
-                      <span
-                        style="
-                          background: #667eea;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Owner</span
-                      >
-                    </td>
-                    <td>Management</td>
-                    <td>077-9876543</td>
-                    <td>
-                      <span
-                        style="
-                          background: #4caf50;
-                          padding: 5px 10px;
-                          border-radius: 20px;
-                          color: white;
-                          font-size: 12px;
-                        "
-                        >Active</span
-                      >
-                    </td>
-                    <td>2024-03-15 10:00 AM</td>
-                    <td>
-                      <div class="action-buttons">
-                        <button
-                          class="action-btn edit"
-                          onclick="editUser('U-005')"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          class="action-btn delete"
-                          onclick="deleteUser('U-005')"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          class="action-btn view"
-                          onclick="viewUser('U-005')"
-                        >
-                          <i class="fas fa-eye"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                  
                 </tbody>
               </table>
             </div>
+            <br>
+            <!-- User Role Distribution Chart -->
+<!-- <div style="
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+">
+  <h4 style="color: white; margin-bottom: 20px; text-align: center">
+    <i class="fas fa-chart-pie" style="margin-right: 10px; color: #00c6fb"></i>
+    System Users by Role Distribution
+    <span id="totalUsersCount" style="font-size: 14px; color: #00c6fb; margin-left: 10px"></span>
+  </h4>
+  <div style="display: flex; justify-content: center">
+    <canvas id="systemUserRoleChart" style="width: 100%; max-width: 400px; height: 300px"></canvas>
+  </div>
+</div> -->
           </div>
         </section>
         <!-- 
@@ -1644,6 +1409,6 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="../js/dashbord.js"></script>
     <script src="../js/peation.js"></script>
-    <script src="../js/Systemuser.js"></script>
+    <script src="../js/SystemUser2.js"></script>
   </body>
 </html>

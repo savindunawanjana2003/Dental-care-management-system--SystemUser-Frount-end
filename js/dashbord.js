@@ -79,7 +79,7 @@ $(document).ready(function () {
       "lab",
       "financing",
       "frontEnd",
-      "logoutBtn",
+      "logout",
     ],
 
     DOCTOR: [
@@ -89,12 +89,12 @@ $(document).ready(function () {
       "doctorSchedule",
       "patientAppointment",
       "caseStudies",
-      "logoutBtn",
+      "logout",
     ],
 
-    RECEPTIONIST: ["dashboard", "patient", "patientAppointment", "logoutBtn"],
+    RECEPTIONIST: ["dashboard", "patient", "patientAppointment", "logout"],
 
-    CASHIER: ["dashboard", "financing", "logoutBtn"],
+    CASHIER: ["dashboard", "financing", "logout"],
   };
 
   applyRoleAccess(role);
@@ -162,15 +162,16 @@ $(document).ready(function () {
 
   // =======================
 
+  // ===================================
+
   // Logout
   $("#logoutBtn").click(function (e) {
-    e.preventDefault();
-    $("#loadingOverlay").addClass("active");
-    setTimeout(function () {
-      $("#loadingOverlay").removeClass("active");
-      $(".dashboard-wrapper").hide();
-      $("#loginPage").show();
-    }, 1000);
+    // const tocken = localStorage.getItem("usertoken");
+
+      window.location.href = "../index.html";
+    
+    localStorage.removeItem("usertoken");
+    localStorage.removeItem("Rolle");
   });
 
   // Login

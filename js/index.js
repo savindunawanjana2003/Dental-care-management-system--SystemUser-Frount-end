@@ -230,8 +230,7 @@ $("#loginButten").on("click", () => {
             popup: "glassmorphism-popup",
           },
         }).then(() => {
-          // document.getElementById("loginSound").play();
-          // window.location.href = "../pages/Dashbord.html";
+          // ===================================================================play this after the uncomi =======================================================================================
           const audio = document.getElementById("loginSound");
           audio.play();
 
@@ -260,7 +259,7 @@ $("#loginButten").on("click", () => {
         message = jqXHR.responseText;
       }
       console.log("Error message from server:", message);
-
+      // ===================================================================play this after the uncomi =======================================================================================
       const audio = document.getElementById("invalidSound");
       audio.play();
 
@@ -292,6 +291,12 @@ $("#loginButten").on("click", () => {
   });
 
   // =========================================================================
+  // $(document).ready(function () {
+  //   // Prevent back button
+  //   window.history.pushState(null, null, window.location.href);
 
-  // alert("ljkda");
+  //   window.onpopstate = function () {
+  //     window.history.pushState(null, null, window.location.href);
+  //   };
+  // });
 });

@@ -1,6 +1,9 @@
 function blinkField(fieldId) {
   const field = $("#" + fieldId);
   const modal = field.closest(".modal");
+  $(document).ready(function () {
+    getAllpation();
+  });
 
   if (modal.length) {
     if (!modal.hasClass("show")) {
@@ -139,7 +142,7 @@ $("#SaveBtnBostrapModal").on("click", () => {
           timerProgressBar: true,
         }).then(() => {
           cleare();
-          getAll();
+          getAllpation();
         });
       } else {
         Swal.fire({
@@ -150,6 +153,7 @@ $("#SaveBtnBostrapModal").on("click", () => {
           color: "#ffffff",
           iconColor: "#ff4d4f",
         });
+        getAll();
       }
     },
     error: function (jqXHR) {
@@ -260,7 +264,7 @@ function cleare() {
   $("#patienGenderId").val("Other");
 }
 
-function getAll() {
+function getAllpation() {
   $("#addCustomerModal").on("hidden.bs.modal", () => {
     cleare();
     showAddMode();
@@ -302,7 +306,7 @@ function getAll() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  getAll();
+  getAllpation();
   loadPieChart();
 });
 
@@ -366,7 +370,7 @@ $("#DeleteBtnBostrapModal").on("click", () => {
           getAll();
         });
       } else {
-        getAll();
+        getAllpation();
         Swal.fire({
           icon: "error",
           title: "Save Failed",
@@ -483,7 +487,7 @@ $("#EditeBtnBostrapModal").on("click", () => {
         }).then(() => {
           // window.location.href = "index.html";
           cleare();
-          getAll();
+          getAllpation();
         });
       } else {
         getAll();
@@ -529,7 +533,7 @@ $("#EditeBtnBostrapModal").on("click", () => {
 });
 
 $("#refreshId").on("click", () => {
-  getAll();
+  getAllpation();
   cleare();
 });
 

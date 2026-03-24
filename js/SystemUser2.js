@@ -217,11 +217,14 @@ function saveUser() {
         color: "#ffffff",
         iconColor: "#4caf50",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 1000,
         timerProgressBar: true,
       }).then(() => {
         cleare();
         getAll();
+        if (typeof lodetableDoctor() === "function") {
+          lodetableDoctor();
+        }
       });
       clear();
       //   getAllUsers();

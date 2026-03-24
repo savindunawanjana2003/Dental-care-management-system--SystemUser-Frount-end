@@ -23,6 +23,12 @@
       rel="stylesheet"
     />
 
+    <!-- =========================================== -->
+         <!-- Google Fonts: Inter + Poppins for clean official look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    
+    <!-- ============================================= -->
+
     <link rel="stylesheet" href="../styles/Systemuser.css" />
     <link rel="stylesheet" href="../styles/dashbord.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -651,7 +657,7 @@
         </section>
 
         <!-- Doctor Section -->
-        <section id="doctorSection" class="section-container">
+        <!-- <section id="doctorSection" class="section-container">
           <div class="management-section">
             <h2><i class="fas fa-user-md"></i> Doctors</h2>
             <p style="color: rgba(255, 255, 255, 0.6)">
@@ -709,8 +715,202 @@
               </table>
             </div>
           </div>
-        </section>
+        </section> -->
 
+        <!-- Doctor Section -->
+<!-- ============================================================================================================================================================== -->
+<section id="doctorSection" class="section-container">
+  <div class="management-section doctor-prescription-wrapper">
+    <!-- Section Header with Gradient -->
+    <div class="doctor-header-modern">
+      <div class="doctor-header-left">
+        <div class="doctor-icon-badge">
+          <i class="fas fa-user-md"></i>
+        </div>
+        <div>
+          <h2><i class="fas fa-stethoscope"></i> Doctor Management</h2>
+          <p>Manage doctor profiles, specializations, and professional details</p>
+        </div>
+      </div>
+      <div class="doctor-stats-mini">
+        <span><i class="fas fa-chart-line"></i> Doctor count: <strong id="doctorCount">0</strong></span>
+      </div>
+    </div>
+
+    <!-- Main Grid Layout -->
+    <div class="doctor-grid-layout">
+
+      <!-- ----------------------------------------- LEFT PANEL: Add New Doctor --------------------------------------- -->
+      <div class="doctor-card glass-effect">
+        <div class="card-header-accent">
+          <i class="fas fa-user-plus"></i>
+          <h3>Add New Doctor</h3>
+          <span class="badge-modern"><i class="fas fa-notes-medical"></i> Register</span>
+        </div>
+
+        <!-- Search Doctor -->
+        <div class="input-group-modern">
+          <label><i class="fas fa-user-search"></i> Search Doctor</label>
+          <div class="search-wrapper">
+            <input type="text" id="searchDoctorInput" onkeyup="searchDoctors()" class="form-control-modern"  placeholder="Enter name, NIC or phone number..." >
+            <div id="doctorSearchResults" class="search-dropdown"></div>
+          </div>
+        </div>
+
+        <!-- Selected Doctor Card -->
+        <div id="selectedDoctorInfo" class="patient-selected-card" style="display: none;">
+          <div class="patient-avatar-lg">
+            <i class="fas fa-user-md"></i>
+          </div>
+          <div class="patient-details">
+            <h4 id="selectedDoctorName">-</h4>
+            <p><i class="fas fa-id-card"></i> NIC: <span id="selectedDoctorNic">-</span> &nbsp;|&nbsp; <i class="fas fa-phone-alt"></i> <span id="selectedDoctorPhone">-</span></p>
+            <p><i class="fas fa-envelope"></i> Email: <span id="selectedDoctorEmail">-</span></p>
+          </div>
+        </div>
+
+        <div class="divider-light"></div>
+
+        <!-- Form Fields -->
+        <div class="form-row-double">
+          <div class="form-group-modern">
+            <label><i class="fas fa-hashtag"></i> Doctor ID</label>
+            <input type="text" id="doctorId" class="form-control-modern" readonly placeholder="Auto-generated">
+          </div>
+          <div class="form-group-modern">
+            <label><i class="fas fa-user-tag"></i> Employee ID</label>
+            <input type="text" id="systemUserId" class="form-control-modern" placeholder="Auto fill after select doctor">
+          </div>
+        </div>
+
+        <!-- Specialty Dropdown -->
+        <div class="input-group-modern">
+          <label><i class="fas fa-stethoscope"></i> Dental Specialty</label>
+          <div class="search-wrapper">
+            <select id="doctorSpecialty" class="form-control-modern specialty-select">
+              <option value="">-- Select Specialty --</option>
+              <option value="GENERAL_DENTISTRY">🦷 General Dentistry</option>
+              <option value="ORTHODONTICS">😁 Orthodontics (Braces & Aligners)</option>
+              <option value="ENDODONTICS">🔬 Endodontics (Root Canal Treatment)</option>
+              <option value="PERIODONTICS">🦷 Periodontics (Gum Disease Treatment)</option>
+              <option value="PROSTHODONTICS">🦷 Prosthodontics (Crowns & Bridges)</option>
+              <option value="ORAL_SURGERY">💉 Oral & Maxillofacial Surgery</option>
+              <option value="PEDIATRIC_DENTISTRY">👶 Pediatric Dentistry (Children)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-triple">
+          <div class="form-group-modern">
+            <label><i class="fas fa-chart-line"></i> Experience (Years)</label>
+            <input type="text" id="doctorExperience" class="form-control-modern" placeholder="e.g., 5 years">
+          </div>
+          <div class="form-group-modern">
+            <label><i class="fas fa-phone-alt"></i> Phone Number</label>
+            <input type="text" id="doctorPhone" class="form-control-modern" placeholder="Enter phone number">
+          </div>
+          <div class="form-group-modern">
+            <label><i class="fas fa-id-card"></i> NIC Number</label>
+            <input type="text" id="doctorNic" class="form-control-modern" placeholder="Enter NIC">
+          </div>
+        </div>
+
+        <div class="form-row-double">
+          <div class="form-group-modern">
+            <label><i class="fas fa-envelope"></i> Email Address</label>
+            <input type="email" id="doctorEmail" class="form-control-modern" placeholder="doctor@example.com">
+          </div>
+          <div class="form-group-modern">
+            <label><i class="fas fa-calendar-alt"></i> Registered Date</label>
+            <input type="text" id="doctorRegDate" class="form-control-modern">
+          </div>
+        </div>
+
+        <div class="form-row-double">
+          <div class="form-group-modern">
+            <label><i class="fas fa-user"></i> Full Name</label>
+            <input type="text" id="doctorFullName" class="form-control-modern" placeholder="Enter full name">
+          </div>
+          <div class="form-group-modern">
+            <label><i class="fas fa-clock"></i> Available Days & Time</label>
+            <input type="text" id="doctorSchedule" class="form-control-modern" placeholder="Mon-Fri 9AM-5PM">
+          </div>
+        </div>
+
+        <div class="action-buttons-row">
+          <button id="refreshDoctorBtn" class="btn-outline-custom"><i class="fas fa-sync-alt"></i> Refresh</button>
+          <button id="saveDoctorBtn" class="btn-primary-custom"><i class="fas fa-save"></i> Save Doctor</button>
+        </div>
+      </div>
+
+      <!-- ----------------------------------------- RIGHT PANEL: Doctor List --------------------------------------- -->
+      <div class="doctor-card glass-effect cart-panel-enhanced">
+        <div class="card-header-accent">
+          <i class="fas fa-users"></i>
+          <h3>Employee book</h3>
+          <span class="cart-count-badge" id="doctorListCount">0</span>
+        </div>
+        <div class="card-subtitle">
+          <p><i class="fas fa-info-circle"></i> Select a doctor to view details or register as a specialist</p>
+        </div>
+
+        <!-- Doctors Table -->
+        <div class="cart-table-container">
+          <table class="prescription-cart-table">
+            <thead>
+              <tr >
+                <th style="justify-content: center;"><i class="fas fa-id-badge"></i> Employee ID</th>
+                <th style="justify-content: center;"><i class="fas fa-user"></i> Full Name</th>
+                <th style="justify-content: center;"><i class="fas fa-envelope"></i> Email</th>
+                <th><i class="fas fa-stethoscope"></i> Rolle</th>
+                <th><i class="fas fa-phone"></i> Phone</th>
+                <th><i class="fas fa-id-card"></i> NIC</th>
+                <th><i class="fas fa-cog"></i> Register date</th>
+              </tr>
+            </thead>
+            <tbody id="doctorsTableBody">
+              <!-- <tr class="empty-row">
+                <td colspan="7" class="text-center"><i class="fas fa-user-md"></i> No doctors registered yet</td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENT ACTIVITY TABLE -->
+    <div class="recent-orders-section glass-effect">
+      <div class="section-title-bar">
+        <i class="fas fa-history"></i>
+        <h3>Recent Doctor Registrations</h3>
+        <span class="refresh-hint"><i class="fas fa-sync-alt"></i> Auto-updated</span>
+      </div>
+      <div class="table-responsive-custom">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Doctor ID</th>
+              <th>Full Name</th>
+              <th>Specialty</th>
+              <th>Experience</th>
+              <th>Registered Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="recentDoctorsBody">
+            <!-- <tr>
+              <td colspan="7" class="text-center"><i class="fas fa-clock"></i> No recent registrations</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================================================================================================================ -->
         <!-- Patient Section -->
         <section id="patientSection" class="section-container">
           <div class="management-section">
@@ -1410,5 +1610,6 @@
     <script src="../js/dashbord.js"></script>
     <script src="../js/peation.js"></script>
     <script src="../js/SystemUser2.js"></script>
+    <script src="../js/Doctor.js"></script>
   </body>
 </html>

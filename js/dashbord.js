@@ -167,9 +167,8 @@ $(document).ready(function () {
   // Logout
   $("#logoutBtn").click(function (e) {
     // const tocken = localStorage.getItem("usertoken");
+    window.location.href = "../index.html";
 
-      window.location.href = "../index.html";
-    
     localStorage.removeItem("usertoken");
     localStorage.removeItem("Rolle");
   });

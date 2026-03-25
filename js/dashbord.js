@@ -121,7 +121,6 @@ $(document).ready(function () {
   // });
 
   // ==============================
-
   function applyRoleAccess(role) {
     const allowedSections = accessMap[role];
 

@@ -210,17 +210,19 @@ $("#tbodyPeation").on("click", "tr", function () {
   const id = $(this).find("td:eq(0)").text();
   const address = $(this).find("td:eq(1)").text();
   const age = $(this).find("td:eq(2)").text();
-  const name = $(this).find("td:eq(3)").text();
+  const name = $(this).find("td:eq(3)").text().trim();
   const contact = $(this).find("td:eq(4)").text();
-  const visitCount = $(this).find("td:eq(5)").text();
-  const city = $(this).find("td:eq(6)").text();
-  const contry = $(this).find("td:eq(7)").text();
-  const email = $(this).find("td:eq(8)").text();
-  const gender = $(this).find("td:eq(9)").text().trim();
-  const navigeter = $(this).find("td:eq(11)").text().trim();
+  const city = $(this).find("td:eq(5)").text();
+  const contry = $(this).find("td:eq(6)").text();
+  const email = $(this).find("td:eq(7)").text();
+  const gender = $(this).find("td:eq(8)").text().trim();
+   const nic = $(this).find("td:eq(9)").text();
+  const navigeter = $(this).find("td:eq(10)").text().trim();
+  console.log(navigeter + " sssss");
   localStorage.setItem("navigeter", navigeter);
-
-  const nic = $(this).find("td:eq(10)").text();
+ 
+  console.log(navigeter + "=============navigeter");
+  console.log(nic + "------------nic-------------------------");
 
   const gendernew = gender.trim();
 
@@ -289,7 +291,6 @@ function getAllpation() {
           <td>${patient.age + ""}</td>
           <td>${patient.firstName}
           <td>${patient.pone + ""}</td>
-          <td>${patient.visitCount + ""}</td>
            <td>${patient.city}</td>
           <td>${patient.country}</td>
           <td>${patient.email}</td>
@@ -299,6 +300,21 @@ function getAllpation() {
         </tr>
       `;
         tableBody.append(row);
+
+        // <tr>
+        //   <td>${patient.id}</td>
+        //   <td>${patient.address}</td>
+        //   <td>${patient.age + ""}</td>
+        //   <td>${patient.firstName}
+        //   <td>${patient.pone + ""}</td>
+        //   // <td>${patient.visitCount + ""}</td>
+        //    <td>${patient.city}</td>
+        //   <td>${patient.country}</td>
+        //   <td>${patient.email}</td>
+        //   <td>${patient.gender}</td>
+        //   <td>${patient.nic}</td>
+        //   <td>${patient.navigator}</td>
+        // </tr>
       });
     },
     error: function (jqXHR) {},
@@ -367,7 +383,7 @@ $("#DeleteBtnBostrapModal").on("click", () => {
         }).then(() => {
           // window.location.href = "index.html";
           cleare();
-          getAll();
+          getAllpation;
         });
       } else {
         getAllpation();

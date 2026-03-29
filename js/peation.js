@@ -216,11 +216,11 @@ $("#tbodyPeation").on("click", "tr", function () {
   const contry = $(this).find("td:eq(6)").text();
   const email = $(this).find("td:eq(7)").text();
   const gender = $(this).find("td:eq(8)").text().trim();
-   const nic = $(this).find("td:eq(9)").text();
+  const nic = $(this).find("td:eq(9)").text();
   const navigeter = $(this).find("td:eq(10)").text().trim();
   console.log(navigeter + " sssss");
   localStorage.setItem("navigeter", navigeter);
- 
+
   console.log(navigeter + "=============navigeter");
   console.log(nic + "------------nic-------------------------");
 
@@ -300,21 +300,6 @@ function getAllpation() {
         </tr>
       `;
         tableBody.append(row);
-
-        // <tr>
-        //   <td>${patient.id}</td>
-        //   <td>${patient.address}</td>
-        //   <td>${patient.age + ""}</td>
-        //   <td>${patient.firstName}
-        //   <td>${patient.pone + ""}</td>
-        //   // <td>${patient.visitCount + ""}</td>
-        //    <td>${patient.city}</td>
-        //   <td>${patient.country}</td>
-        //   <td>${patient.email}</td>
-        //   <td>${patient.gender}</td>
-        //   <td>${patient.nic}</td>
-        //   <td>${patient.navigator}</td>
-        // </tr>
       });
     },
     error: function (jqXHR) {},
@@ -552,7 +537,7 @@ $("#refreshId").on("click", () => {
   getAllpation();
   cleare();
 });
-
+// ===================================================================
 function searchPations() {
   let text = $("#serchBarIdPation").val().trim();
   text;

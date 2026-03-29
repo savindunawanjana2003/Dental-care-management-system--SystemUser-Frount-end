@@ -31,10 +31,46 @@
 
     <link rel="stylesheet" href="../styles/Systemuser.css" />
     <link rel="stylesheet" href="../styles/dashbord.css" />
+        <link rel="stylesheet" href="../styles/Appointment.css" />
+        <link rel="stylesheet" href="../styles/DoctordalyDeatilesTraking.css">
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <!-- =============================================== -->
+         <div class="modal fade" id="paymentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Record Payment</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Patient</label>
+                        <select id="paymentPatientSelect" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Amount (Rs.)</label>
+                        <input type="number" id="paymentAmount" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select id="paymentMethod" class="form-control">
+                            <option value="Cash">Cash</option>
+                            <option value="Card">Card</option>
+                            <option value="Insurance">Insurance</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="recordPayment()">Record Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ---------------user modal------------------ -->
     <!-- Add/Edit System User Modal -->
     <div class="modal fade" id="systemUserModal" tabindex="-1">
@@ -427,9 +463,9 @@
           </li>
           <!-- Doctor Schedule -->
           <li class="nav-item">
-            <a href="#" class="nav-link" data-section="doctorSchedule">
+            <a href="#" class="nav-link" data-section="doctorDailyTracking">
               <i class="fas fa-calendar-alt"></i>
-              <span>Doctor<br />Schedule</span>
+              <span>Track daily patients<br /></span>
             </a>
           </li>
           <!-- Patient Appointment -->
@@ -1000,25 +1036,393 @@
           </div>
         </section>
 
-        <!-- Doctor Schedule Section -->
-        <section id="doctorScheduleSection" class="section-container">
+        <!-- Doctor day lan traking Section -->
+        <!-- <section id="doctorScheduleSection" class="section-container">
           <div class="management-section">
             <h2><i class="fas fa-calendar-alt"></i> Doctor Schedule</h2>
             <p style="color: rgba(255, 255, 255, 0.6)">
               Manage doctor availability and shifts
             </p>
           </div>
-        </section>
+        </section> -->
+
+
+            <section id="doctorDailyTrackingSection" class="section-container">
+                <div class="management-section">
+                    <h2><i class="fas fa-calendar-day"></i> Doctor Daily Tracking</h2>
+                    <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 20px;">
+                        Track daily patients, manage check-ins, treatments, and payments
+                    </p>
+
+                    <!-- Today's Date -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <span style="background: rgba(0, 198, 251, 0.2); padding: 8px 20px; border-radius: 30px; color: #00c6fb;">
+                            <i class="fas fa-calendar-alt"></i> Today: <span id="currentDateDisplay"></span>
+                        </span>
+                    </div>
+
+                    <div class="doctor-tracking-grid">
+                        <!-- Left Panel: Add New Patient -->
+                        <div class="tracking-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-user-plus"></i> Add Today's Patient</h3>
+                                <i class="fas fa-tooth"></i>
+                            </div>
+                            <div class="form-group">
+                                <label>Patient Name</label>
+                                <input type="text" id="trackingPatientName" class="form-control" placeholder="Enter patient name">
+                            </div>
+                            <div class="form-group">
+                                <label>Appointment Time</label>
+                                <input type="time" id="trackingTime" class="form-control" value="09:00">
+                            </div>
+                            <div class="form-group">
+                                <label>Treatment Type</label>
+                                <select id="trackingTreatment" class="form-control">
+                                    <option value="2000">Consultation - Rs. 2,000</option>
+                                    <option value="5000">Cleaning - Rs. 5,000</option>
+                                    <option value="10000">Filling - Rs. 10,000</option>
+                                    <option value="15000">Root Canal - Rs. 15,000</option>
+                                    <option value="25000">Extraction - Rs. 25,000</option>
+                                    <option value="35000">Crown - Rs. 35,000</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="addTrackingPatient()">
+                                <i class="fas fa-plus"></i> Add Patient
+                            </button>
+                        </div>
+
+                        <!-- Right Panel: Today's Patients List -->
+                        <div class="tracking-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-list"></i> Today's Patients (<span id="todayPatientCount">0</span>)</h3>
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div id="todayPatientsList"></div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Summary -->
+                    <div class="tracking-card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line"></i> Payment Summary</h3>
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="payment-summary">
+                            <div class="payment-item">
+                                <div class="payment-label">Expected Total</div>
+                                <div class="payment-amount" id="expectedTotal">Rs. 0</div>
+                            </div>
+                            <div class="payment-item">
+                                <div class="payment-label">Collected</div>
+                                <div class="payment-amount" id="collectedTotal">Rs. 0</div>
+                            </div>
+                            <div class="payment-item">
+                                <div class="payment-label">Pending</div>
+                                <div class="payment-amount" id="pendingTotal">Rs. 0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Workflow Guide -->
+                    <div class="tracking-card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <h3><i class="fas fa-tasks"></i> Daily Workflow Guide</h3>
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="workflow-steps" id="workflowSteps">
+                            <div class="workflow-step">
+                                <div class="step-circle">1</div>
+                                <div class="step-label">Check-in</div>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="step-circle">2</div>
+                                <div class="step-label">Nurse Assessment</div>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="step-circle">3</div>
+                                <div class="step-label">Doctor Consultation</div>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="step-circle">4</div>
+                                <div class="step-label">Treatment</div>
+                            </div>
+                            <div class="workflow-step">
+                                <div class="step-circle">5</div>
+                                <div class="step-label">Payment</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;" onclick="startWorkflowGuide()">
+                            <i class="fas fa-play"></i> Start Workflow Guide
+                        </button>
+                    </div>
+                </div>
+            </section>
 
         <!-- Patient Appointment Section -->
         <section id="patientAppointmentSection" class="section-container">
-          <div class="management-section">
-            <h2><i class="fas fa-clock"></i> Patient Appointment</h2>
-            <p style="color: rgba(255, 255, 255, 0.6)">
-              Schedule and manage appointments
-            </p>
+      <div class="management-section appointment-wrapper">
+        <!-- Modern Header -->
+        <div class="appointment-header-modern">
+          <div class="appointment-header-left">
+            <div class="appointment-icon-badge">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div>
+              <h2>
+                <i class="fas fa-clock"></i> Patient Appointment Management
+              </h2>
+              <p>Schedule, track and manage patient appointments efficiently</p>
+            </div>
           </div>
-        </section>
+          <div class="appointment-stats-mini">
+            <span
+              ><i class="fas fa-chart-line"></i> Today's Appointments:
+              <strong id="todayAppointmentCount">0</strong></span
+            >
+          </div>
+        </div>
+
+        <!-- Main Grid: Left Form + Right List -->
+        <div class="appointment-grid-layout">
+          <!-- LEFT PANEL: Add New Appointment -->
+          <div class="appointment-card glass-effect">
+            <div class="card-header-accent">
+              <i class="fas fa-plus-circle"></i>
+              <h3>Schedule New Appointment</h3>
+              <span class="badge-modern"
+                ><i class="fas fa-notes-medical"></i> Register</span
+              >
+            </div>
+
+            <!-- Search Patient -->
+            <div class="input-group-modern">
+              <label><i class="fas fa-user-search"></i> Search Patient</label>
+              <div class="search-wrapper">
+                <input
+                  type="text"
+                  id="searchPatientsInputId"
+                  class="form-control-modern"
+                  placeholder="Enter patient name, NIC or phone..."
+                  autocomplete="off"
+                  onkeyup="searchPetionsForApoinmants()"
+                />
+                <div id="patientSearchResults" class="search-dropdown"></div>
+              </div>
+            </div>
+
+            <!-- Selected Patient Card -->
+            <div
+              id="selectedPatientInfo"
+              class="patient-selected-card"
+              style="display: none"
+            >
+              <div class="patient-avatar-lg">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="patient-details">
+                <h4 id="selectedPatientName">-</h4>
+                <p>
+                  <i class="fas fa-id-card"></i> NIC:
+                  <span id="selectedPatientNic">-</span> &nbsp;|&nbsp;
+                  <i class="fas fa-phone-alt"></i>
+                  <span id="selectedPatientPhone">-</span>
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="divider-light"
+              style="
+                height: 1px;
+                background: rgba(255, 255, 255, 0.1);
+                margin: 10px 0 15px;
+              "
+            ></div>
+
+            <!-- Appointment Form Fields -->
+            <div class="form-row-double">
+              <div class="input-group-modern">
+                <label><i class="fas fa-hashtag"></i> Appointment ID</label>
+                <input
+                  type="text"
+                  id="appointmentId"
+                  class="form-control-modern"
+                  readonly
+                  placeholder="Auto-generated"
+                />
+              </div>
+              <div class="input-group-modern">
+                <label
+                  ><i class="fas fa-calendar-day"></i> Appointment Date</label
+                >
+                <input
+                  type="date"
+                  id="appointmentDate"
+                  class="form-control-modern"
+                />
+              </div>
+            </div>
+<!-- ================== -->
+
+   <div class="form-row-double">
+              <div class="input-group-modern">
+                <label><i class="fas fa-hashtag"></i> Apoinmant Time :</label>
+                <input
+                  type="time"
+                  id="timeId"
+                  class="form-control-modern"
+                  placeholder="time"
+                />
+              </div>
+              <!-- <div class="input-group-modern">
+                <label
+                  ><i class="fas fa-calendar-day"></i> Appointment Date</label
+                >
+                <input
+                  type="date"
+                  id="appointmentDate"
+                  class="form-control-modern"
+                />
+              </div> -->
+            </div>
+
+<!-- ================================ -->
+            <div class="form-row-double">
+              <div class="input-group-modern">
+                <label><i class="fas fa-clock"></i> Pation Id</label>
+                 <input
+                  type="text"
+                  id="pationId"
+                  class="form-control-modern"
+                  placeholder=""
+                  readonly
+                />
+               
+              </div> 
+              <div class="input-group-modern">
+                <label><i class="fas fa-user-md"></i> Select Doctor</label>
+                <select id="appointmentDoctor" class="form-control-modern">
+                  <option value="">-- Select Doctor --</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-double">
+              <div class="input-group-modern">
+                <label
+                  ><i class="fas fa-stethoscope"></i> Reason / Symptoms</label
+                >
+                <input
+                  type="text"
+                  id="appointmentReason"
+                  class="form-control-modern"
+                  placeholder="e.g., Toothache, Cleaning, etc."
+                />
+              </div>
+              <div class="input-group-modern">
+                <label><i class="fas fa-flag-checkered"></i> Status</label>
+                <select id="appointmentStatus" class="form-control-modern">
+                  <option value="pending">pending</option>
+                  <!-- <option value="COMPLETED">Completed</option>
+                  <option value="CANCELLED">Cancelled</option> -->
+                </select>
+              </div>
+            </div>
+
+            <div class="action-buttons-row">
+              <button id="refreshAppointmentBtn" class="btn-outline-custom">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+              <button id="saveAppointmentBtn" class="btn-primary-custom">
+                <i class="fas fa-save"></i> Save Appointment
+              </button>
+            </div>
+          </div>
+
+          <!-- RIGHT PANEL: Appointments List -->
+          <div class="appointment-card glass-effect">
+            <div class="card-header-accent">
+              <i class="fas fa-list-ul"></i>
+              <h3>Upcoming Appointments</h3>
+              <span
+                class="cart-count-badge"
+                id="appointmentListCount"
+                style="
+                  background: #00c6fb;
+                  padding: 2px 10px;
+                  border-radius: 30px;
+                  font-size: 0.8rem;
+                "
+                >0</span  
+              >
+            </div>
+            <div class="card-subtitle">
+              <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem">
+                <i class="fas fa-info-circle"></i> Click edit to modify or
+                delete appointments
+              </p>
+            </div>
+            <div class="appointment-table-container">
+              <table class="appointment-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="appointmentsTableBody">
+                  <tr class="empty-row">
+                    <td colspan="7">
+                      <i class="fas fa-calendar-alt"></i> No appointments
+                      scheduled yet
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity / History -->
+        <!-- <div class="glass-effect recent-section">
+          <div class="section-title-bar">
+            <i class="fas fa-history"></i>
+            <h3>Recent Appointment Activity</h3>
+            <span
+              class="refresh-hint"
+              style="margin-left: auto; font-size: 0.7rem"
+              ><i class="fas fa-sync-alt"></i> Auto-updated</span
+            >
+          </div>
+          <div class="table-responsive-custom">
+            <table class="appointment-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Patient</th>
+                  <th>Doctor</th>
+                  <th>Status</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="recentAppointmentsBody">
+                <tr class="empty-row">
+                  <td colspan="5">
+                    <i class="fas fa-clock"></i> No recent appointments
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div> -->
+      </div>
+    </section>
 
         <!-- Patient Case Studies Section -->
         <section id="caseStudiesSection" class="section-container">
@@ -1611,5 +2015,8 @@
     <script src="../js/peation.js"></script>
     <script src="../js/SystemUser2.js"></script>
     <script src="../js/Doctor.js"></script>
+     <script src="../js/Appointment.js"></script>
+          <script src="../js/DoctordalyDeatilesTraking.js"></script>
+
   </body>
 </html>

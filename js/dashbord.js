@@ -71,7 +71,7 @@ $(document).ready(function () {
       "departments",
       "doctor",
       "patient",
-      "doctorSchedule",
+      "doctorDailyTracking",
       "patientAppointment",
       "caseStudies",
       "systemUsers",

@@ -1,0 +1,387 @@
+/* Doctor Daily Tracking Styles */
+
+.doctor-tracking-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.tracking-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tracking-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-header h3 {
+    color: white;
+    font-size: 18px;
+    margin: 0;
+}
+
+.card-header h3 i {
+    color: #00c6fb;
+    margin-right: 8px;
+}
+
+.card-header > i {
+    color: #00c6fb;
+    font-size: 24px;
+}
+
+.patient-tracking-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+
+.patient-tracking-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.patient-info {
+    flex: 1;
+}
+
+.patient-info h4 {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.patient-info p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    margin: 0;
+}
+
+.patient-info p i {
+    color: #00c6fb;
+    margin-right: 5px;
+}
+
+.tracking-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.tracking-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tracking-btn:hover {
+    background: #00c6fb;
+    transform: scale(1.05);
+}
+
+.tracking-btn i {
+    font-size: 14px;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.status-pending {
+    background: #f39c12;
+    color: #fff;
+}
+
+.status-checked {
+    background: #3498db;
+    color: #fff;
+}
+
+.status-treatment {
+    background: #9b59b6;
+    color: #fff;
+}
+
+.status-completed {
+    background: #27ae60;
+    color: #fff;
+}
+
+.status-paid {
+    background: #27ae60;
+    color: #fff;
+}
+
+.status-unpaid {
+    background: #e74c3c;
+    color: #fff;
+}
+
+/* Payment Summary */
+.payment-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.payment-item {
+    text-align: center;
+    flex: 1;
+}
+
+.payment-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.payment-amount {
+    color: #00c6fb;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Workflow Steps */
+.workflow-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.workflow-step {
+    text-align: center;
+    flex: 1;
+    min-width: 70px;
+    position: relative;
+}
+
+.step-circle {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 0.3s;
+}
+
+.workflow-step.completed .step-circle {
+    background: #27ae60;
+    box-shadow: 0 0 15px rgba(39, 174, 96, 0.5);
+}
+
+.workflow-step.active .step-circle {
+    background: #00c6fb;
+    box-shadow: 0 0 20px rgba(0, 198, 251, 0.5);
+    transform: scale(1.1);
+}
+.step-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Form Controls */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 8px;
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.form-group label i {
+    color: #00c6fb;
+    margin-right: 6px;
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #00c6fb;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(0, 198, 251, 0.3);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+select.form-control option {
+    background: #1a1a2e;
+    color: white;
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00c6fb, #005bea);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 198, 251, 0.3);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .doctor-tracking-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .workflow-steps {
+        flex-direction: column;
+    }
+    
+    .workflow-step {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .step-circle {
+        margin: 0;
+    }
+    
+    .payment-summary {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .patient-tracking-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .tracking-actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .tracking-card {
+        padding: 15px;
+    }
+    
+    .card-header h3 {
+        font-size: 16px;
+    }
+    
+    .payment-amount {
+        font-size: 18px;
+    }
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.patient-tracking-item {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Custom Scrollbar */
+.tracking-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tracking-card::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.tracking-card::-webkit-scrollbar-thumb {
+    background: #00c6fb;
+    border-radius: 10px;
+}
+
+.tracking-card::-webkit-scrollbar-thumb:hover {
+    background: #005bea;
+}

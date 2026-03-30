@@ -125,7 +125,7 @@ function lodetableDoctor() {
       const doctorsList = data.data;
 
       const doctorCout = doctorsList.length;
-      // console.log(doctorCout + "===========================");
+     
       $("#doctorListCount").text(doctorCout);
 
       $("#doctorsTableBody").empty();

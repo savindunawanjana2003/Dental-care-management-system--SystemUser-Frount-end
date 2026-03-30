@@ -1,6 +1,7 @@
 // Sample Data
 
 window.onload = function () {
+  inputStyles();
   const selectedDoctor = "D001";
   const date = "2026-03-31";
   $.ajax({
@@ -51,6 +52,145 @@ window.onload = function () {
     },
   });
 };
+
+function getAll() {
+  $.ajax({
+    url: "http://localhost:8080/api/v1/dentalcare/DoctorDeatiles/getall",
+    method: "GET",
+    contentType: "application/json",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("usertoken"),
+    },
+    success: function (data, textStatus, jqXHR) {
+      const doctors = data.data;
+
+      const select = $("#doctorSelectionId");
+      select.empty();
+
+      select.append(`<option value="">Select Doctor</option>`);
+
+      doctors.forEach((doc) => {
+        select.append(
+          `<option value="${doc.doctorId}">Dr ${doc.fullname}</option>`,
+        );
+      });
+    },
+    error: function (jqXHR) {
+      alert("error");
+    },
+  });
+}
+// =============================
+// $("#doctorSelectionId").on("change", function () {
+//   inputStyles();
+//   const value = $(this).val(); // 2000, 5000...
+//   const text = $(this).find("option:selected").text();
+//   // -----------------------
+//   const today = new Date();
+//   const formattedDate = today.toISOString().split("T")[0];
+//   // -----------------------
+//   $.ajax({
+//     url: `http://localhost:8080/api/v1/dentalcare/AppointmentController/${value}/${formattedDate}`,
+//     method: "GET",
+//     contentType: "application/json",
+//     headers: {
+//       Authorization: "Bearer " + localStorage.getItem("usertoken"),
+//     },
+//     success: function (res) {
+//       console.log(res);
+
+//       // const tabody = $("#appointmentsTableBody");
+//       // tabody.empty();
+//       let appointments = res.data;
+
+//       // trackingPatients.splice(0, trackingPatients.length);
+//       // trackingPatients.length = 0;
+
+//       for (let i = 0; i < appointments.length; i++) {
+//         const apoinmant = appointments[i];
+//         console.log(
+//           apoinmant.pationname +
+//             " / " +
+//             apoinmant.doctorFullpayment +
+//             " " +
+//             apoinmant.status,
+//         );
+//         console.log("===============================");
+//         const apinmat = {
+//           id: apoinmant.pationId,
+//           name: apoinmant.pationname,
+//           time: apoinmant.appointmentTime,
+//           treatment: apoinmant.doctorFullpayment,
+//           paid: apoinmant.avelablePayment,
+//           status: apoinmant.status,
+//           paymentStatus: apoinmant.doctorChargeStetus,
+//         };
+
+//         trackingPatients.push(apinmat);
+//       }
+
+//       // =============
+//       updatePatientList();
+//       //  ============
+//     },
+
+//     error: function (err) {
+//       console.error(err);
+//     },
+//   });
+// });
+
+$("#doctorSelectionId").on("change", function () {
+  const doctorId = $(this).val();
+  if (!doctorId) return; // Empty selection ignore
+
+  const today = new Date();
+  const formattedDate = today.toISOString().split("T")[0];
+  $.ajax({
+    url: `http://localhost:8080/api/v1/dentalcare/AppointmentController/${doctorId}/${formattedDate}`,
+    method: "GET",
+    headers: { Authorization: "Bearer " + localStorage.getItem("usertoken") },
+    success: function (res) {
+      const appointments = res.data || [];
+
+      // Clear previous doctor appointments
+      trackingPatients.length = 0;
+
+      // Push only selected doctor appointments
+      appointments.forEach((a) => {
+        trackingPatients.push({
+          id: a.pationId,
+          name: a.pationname,
+          time: a.appointmentTime,
+          treatment: a.doctorFullpayment,
+          paid: a.avelablePayment,
+          status: a.status,
+          paymentStatus: a.doctorChargeStetus,
+        });
+      });
+
+      // Update UI
+      updatePatientList();
+    },
+    error: function (err) {
+      trackingPatients.length = 0;
+      updatePatientList();
+    },
+  });
+});
+
+function inputStyles() {
+  // $("#payhereId").closest(".form-group").show();
+
+  // $("#payhereId").closest(".form-group").hide();
+  $("#descriptionGrup").hide();
+  $("#fullPaymentGrup").hide();
+  $("#paidPaymentGrup").hide();
+  $("#payHereGrup").hide();
+  $("#payHereGrup").hide();
+}
+
+// =============================
 
 let trackingPatients = [
   // {
@@ -181,8 +321,23 @@ function updatePatientList() {
   countSpan.innerText = trackingPatients.length;
 
   if (trackingPatients.length === 0) {
-    container.innerHTML =
-      '<div style="text-align: center; padding: 20px; color: rgba(255,255,255,0.6);">No patients scheduled for today</div>';
+    // container.innerHTML =
+    //   '<div style="text-align: center; padding: 20px; color: rgba(255,255,255,0.6);">No patients scheduled for today</div>';
+    container.innerHTML = `
+    <div style="
+      text-align: center;
+      padding: 30px;
+      font-size: 18px;
+      font-weight: 500;
+      color: #e0e0e0;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      letter-spacing: 0.5px;
+    ">
+      No patients scheduled for today
+    </div>
+  `;
     return;
   }
 
@@ -211,48 +366,27 @@ function updatePatientList() {
         ? '<span class="status-badge status-paid">Paid</span>'
         : '<span class="status-badge status-unpaid">Unpaid</span>';
 
-    // html += `
-    //                 <div class="patient-tracking-item">
-    //                     <div class="patient-info">
-    //                         <h4>${patient.name}</h4>
-    //                         <p>${patient.time} | Treatment: Rs. ${patient.treatment} | ${paymentStatus}</p>
-    //                     </div>
-    //                     <div class="tracking-actions">
-    //                         <span class="status-badge ${statusClass}">${statusText}</span>
-    //                         <button class="tracking-btn" onclick="updatePatientStatus(${patient.id})">
-    //                             <i class="fas fa-arrow-right"></i>
-    //                         </button>
-    //                         ${
-    //                           patient.paymentStatus !== "paid"
-    //                             ? `<button class="tracking-btn" onclick="openPaymentForPatient(${patient.id})">
-    //                             <i class="fas fa-money-bill"></i>
-    //                         </button>`
-    //                             : ""
-    //                         }
-    //                     </div>
-    //                 </div>
-    //             `;
     html += `
-  <div class="patient-tracking-item" data-patient-id="${patient.id} onclick="onPatientItemClick(this)">
-      <div class="patient-info">
-          <h4>${patient.name}</h4>
-          <p>${patient.time} | Treatment: Rs. ${patient.treatment} | ${paymentStatus}</p>
-      </div>
-      <div class="tracking-actions">
-          <span class="status-badge ${statusClass}">${statusText}</span>
-          <button class="tracking-btn" onclick="updatePatientStatus(${patient.id})">
-              <i class="fas fa-arrow-right"></i>
-          </button>
-          ${
-            patient.paymentStatus !== "paid"
-              ? `<button class="tracking-btn" onclick="openPaymentForPatient(${patient.id})">
-                  <i class="fas fa-money-bill"></i>
-                </button>`
-              : ""
-          }
-      </div>
-  </div>
-`;
+                    <div class="patient-tracking-item" data-patient-id="${patient.id}" onclick="onPatientItemClick(this)">
+                        <div class="patient-info">
+                            <h4>${patient.name}</h4>
+                            <p>${patient.time} | Treatment: Rs. ${patient.treatment} | ${paymentStatus}</p>
+                        </div>
+                        <div class="tracking-actions">
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                            <button class="tracking-btn" onclick="updatePatientStatus(${patient.id})">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            ${
+                              patient.paymentStatus !== "paid"
+                                ? `<button class="tracking-btn" onclick="openPaymentForPatient(${patient.id})">
+                                <i class="fas fa-money-bill"></i>
+                            </button>`
+                                : ""
+                            }
+                        </div>
+                    </div>
+                `;
   });
   container.innerHTML = html;
 }
@@ -510,36 +644,55 @@ function updatePatientsTable() {
   tbody.innerHTML = html;
 }
 
-// function onPatientItemClick(this) {
-//   const itemDiv = this.target.closest(".patient-tracking-item");
-//   if (!itemDiv) return;
-
-//   const patientId = parseInt(itemDiv.dataset.patientId);
-//   if (!patientId) return;
-
-//   const patient = trackingPatients.find((p) => p.id === patientId);
-//   if (!patient) return;
-
-//   console.log("Clicked Patient Data:", patient);
-//   alert(patient);
-// }
-
 function onPatientItemClick(div) {
-  const patientId = parseInt(div.dataset.patientId);
-  if (!patientId) return;
+  const patientId = div.dataset.patientId;
 
-  const patient = trackingPatients.find((p) => p.id === patientId);
-  if (!patient) return;
+  localStorage.setItem("selctionCustormerId", patientId);
+  $.ajax({
+    url: "http://localhost:8080/api/v1/dentalcare/AppointmentController/getallAppointment",
+    method: "GET",
+    contentType: "application/json",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("usertoken"),
+    },
+    success: function (res) {
+      console.log(res);
+      let appointments = res.data;
+      console.log(appointments);
+      // var relaventApoinment = "";
+      for (let i = 0; i < appointments.length; i++) {
+        const pt = appointments[i];
+        if (pt.pationId == patientId) {
+          $("#descriptionGrup").show();
+          $("#fullPaymentGrup").show();
+          $("#paidPaymentGrup").show();
+          $("#payHereGrup").show();
 
-  console.log("Clicked Patient Data:", patient);
-  alert(
-    `Patient: ${patient.name}\nTime: ${patient.time}\nTreatment: Rs. ${patient.treatment}`,
-  );
+          break;
+        } else {
+          $("#descriptionGrup").hide();
+          $("#fullPaymentGrup").hide();
+          $("#paidPaymentGrup").hide();
+          $("#payHereGrup").hide();
+        }
+      }
+    },
+
+    error: function (err) {
+      console.error(err);
+      alert("lllll");
+      inputStyles();
+    },
+  });
 }
 
-// Attach event listener using event delegation
-const todayPatientsList = document.getElementById("todayPatientsList");
-todayPatientsList.addEventListener("click", onPatientItemClick);
+function saveDeatilesPationsDeatiles() {
+const pationId = localStorage.getItem("selctionCustormerId");
+  const description = $("#descriptionId").val();
+  const fullpaymentId = $("#fullpaymentId").val();
+  const paidPaymentId = $("#paidPaymentId").val();
+  const payhereId = $("#payhereId").val();
+}
 
 function savePatientFromModal() {
   const name = document.getElementById("modalPatientName").value.trim();
@@ -600,6 +753,7 @@ function updateAppointmentsTable() {
 
 // Initialize
 function init() {
+  getAll();
   updateTrackingUI();
   updatePatientsTable();
   updateAppointmentsTable();

@@ -1065,35 +1065,49 @@
                         <!-- Left Panel: Add New Patient -->
                         <div class="tracking-card">
                             <div class="card-header">
-                                <h3><i class="fas fa-user-plus"></i> Add Today's Patient</h3>
+                                <h3><i class="fas fa-user-plus"></i> Fetch relevant patients</h3>
                                 <i class="fas fa-tooth"></i>
                             </div>
+                            <!-- ============================= -->
                             <div class="form-group">
-                                <label>Patient Name</label>
-                                <input type="text" id="trackingPatientName" class="form-control" placeholder="Enter patient name">
-                            </div>
-                            <div class="form-group">
-                                <label>Appointment Time</label>
-                                <input type="time" id="trackingTime" class="form-control" value="09:00">
-                            </div>
-                            <div class="form-group">
-                                <label>Treatment Type</label>
-                                <select id="trackingTreatment" class="form-control">
-                                    <option value="2000">Consultation - Rs. 2,000</option>
+                                <label> Slect Doctor name</label>
+                                 <select id="doctorSelectionId" class="form-control">
+                                    <!-- <option value="2000">Consultation - Rs. 2,000</option>
                                     <option value="5000">Cleaning - Rs. 5,000</option>
                                     <option value="10000">Filling - Rs. 10,000</option>
                                     <option value="15000">Root Canal - Rs. 15,000</option>
                                     <option value="25000">Extraction - Rs. 25,000</option>
-                                    <option value="35000">Crown - Rs. 35,000</option>
+                                    <option value="35000">Crown - Rs. 35,000</option> -->
                                 </select>
                             </div>
-                            <button class="btn btn-primary" style="width: 100%;" onclick="addTrackingPatient()">
-                                <i class="fas fa-plus"></i> Add Patient
+                            <!-- ====================== -->
+                            <div class="form-group" id="descriptionGrup">
+                                <label>Description :</label>
+                                <input type="text" id="descriptionId" class="form-control" required>
+                            </div>
+                            <!-- ================================ -->
+                            <div class="form-group" id="fullPaymentGrup">
+                                <label>Full payment :</label>
+                                <input type="text" id="fullpaymentId" class="form-control" required>
+                            </div>
+                            <!-- ======================================-->
+                            <div class="form-group" id="paidPaymentGrup">
+                                <label> Paid payment :</label>
+                                <input type="text" id="paidPaymentId" class="form-control" placeholder=" LKR 00.00" readonly>
+                            </div>
+                            <!-- ========================== -->
+                               <div class="form-group" id="payHereGrup">
+                                <label> pay here :</label>
+                                <input type="text" id="payhereId" class="form-control" placeholder="" required>
+                            </div>
+                            <!-- ======================================= -->
+                            <button class="btn btn-primary" style="width: 100%;" onclick="saveDeatilesPationsDeatiles()">
+                                <i class="fas fa-plus"></i> Save deatiles
                             </button>
                         </div>
 
                         <!-- Right Panel: Today's Patients List -->
-                        <div class="tracking-card">
+                        <div class="tracking-card" id="mainid">
                             <div class="card-header">
                                 <h3><i class="fas fa-list"></i> Today's Patients (<span id="todayPatientCount">0</span>)</h3>
                                 <i class="fas fa-clock"></i>

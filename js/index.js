@@ -14,6 +14,8 @@ function togglePassword() {
   }
 }
 
+// ============================
+
 // Form Submit with Loading Animation
 function handleLogin(event) {
   event.preventDefault();
@@ -154,32 +156,6 @@ $("#loginButten").on("click", () => {
     return;
   }
 
-  //  else if (!emailPattern.test(email)) {
-  //   Swal.fire({
-  //     icon: "error",
-  //     title: "⛔ Access Denied",
-  //     text: "Please enter corect Email address",
-  //     background: "#1e1e2f",
-  //     backdrop: "rgba(0,0,0,0.7)",
-  //     showConfirmButton: true,
-  //     confirmButtonText: "✋ Understood",
-  //     confirmButtonColor: "#00c6fb",
-  //     showCancelButton: true,
-  //     cancelButtonText: "🚪 Go Back",
-  //     cancelButtonColor: "#ff4d4f",
-  //     reverseButtons: true,
-  //     timer: 4000,
-  //     timerProgressBar: true,
-  //     showClass: {
-  //       popup: "animate__animated animate__bounceIn",
-  //     },
-  //     hideClass: {
-  //       popup: "animate__animated animate__bounceOut",
-  //     },
-  //   });
-  //   return;
-  // }
-
   // ======================================================================
 
   $.ajax({
@@ -289,14 +265,65 @@ $("#loginButten").on("click", () => {
       });
     },
   });
-
   // =========================================================================
-  // $(document).ready(function () {
-  //   // Prevent back button
-  //   window.history.pushState(null, null, window.location.href);
+  $(document).ready(function () {
+    // Prevent back button
+    window.history.pushState(null, null, window.location.href);
 
-  //   window.onpopstate = function () {
-  //     window.history.pushState(null, null, window.location.href);
-  //   };
-  // });
+    window.onpopstate = function () {
+      window.history.pushState(null, null, window.location.href);
+    };
+  });
+});
+
+$("#forgotPasswordLink").on("click", () => {
+  // alert("akjdka");
+  const username = $("#username").val();
+  if (!username) {
+    Swal.fire({
+      icon: "Error",
+      title: "Please enter Your password !",
+    });
+    return;
+  }
+  $.ajax({
+    url: `http://localhost:8080/api/v1/dentalcare/passwordResetController/genarateOtpByUsername?username=${username}`,
+    method: "GET",
+    contentType: "application/json",
+    success: function (res) {
+      let appointments = res.data;
+      localStorage.setItem("uName", username);
+      window.location.href = "./pages/OtpConfirmPage.html";
+    },
+
+    error: function (err) {
+      console.error(err);
+    },
+  });
+});
+// ===============================================
+$("#forgotPasswordLink").on("click", () => {
+  // alert("akjdka");
+  const username = $("#username").val();
+  if (!username) {
+    Swal.fire({
+      icon: "Error",
+      title: "Please enter Your password !",
+    });
+    return;
+  }
+  $.ajax({
+    url: `http://localhost:8080/api/v1/dentalcare/passwordResetController/genarateOtpByUsername?username=${username}`,
+    method: "GET",
+    contentType: "application/json",
+    success: function (res) {
+      let appointments = res.data;
+      localStorage.setItem("uName", username);
+      window.location.href = "./pages/OtpConfirmPage.html";
+    },
+
+    error: function (err) {
+      console.error(err);
+    },
+  });
 });

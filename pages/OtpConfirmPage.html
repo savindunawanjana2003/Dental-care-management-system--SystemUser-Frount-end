@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>DentalCare Pro | Reset Password</title>
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- Google Font - Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Animate.css -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background: linear-gradient(45deg, #0b0c10, #1a1e2b);
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+      }
+
+      .floating-teeth {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.4;
+      }
+
+      .floating-teeth i {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.05);
+        font-size: 55px;
+        animation: float 9s infinite ease-in-out;
+      }
+
+      .floating-teeth i:nth-child(1) {
+        top: 12%;
+        left: 6%;
+        animation-delay: 0s;
+      }
+      .floating-teeth i:nth-child(2) {
+        top: 78%;
+        left: 85%;
+        animation-delay: 1.2s;
+      }
+      .floating-teeth i:nth-child(3) {
+        top: 42%;
+        left: 18%;
+        animation-delay: 2.5s;
+      }
+      .floating-teeth i:nth-child(4) {
+        top: 88%;
+        left: 28%;
+        animation-delay: 3.8s;
+      }
+      .floating-teeth i:nth-child(5) {
+        top: 25%;
+        left: 80%;
+        animation-delay: 4.5s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-25px) rotate(5deg);
+        }
+      }
+
+      .container {
+        width: 100%;
+        max-width: 500px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .reset-card {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 32px;
+        overflow: hidden;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+        padding: 28px 24px;
+        text-align: center;
+        position: relative;
+      }
+
+      .header-icon {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+        font-size: 34px;
+        color: white;
+        animation: pulseGlow 2s infinite;
+      }
+
+      @keyframes pulseGlow {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3);
+        }
+        70% {
+          box-shadow: 0 0 0 12px rgba(255, 255, 255, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        }
+      }
+
+      .header h1 {
+        color: white;
+        font-weight: 700;
+        font-size: 26px;
+        margin-bottom: 5px;
+      }
+
+      .header p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 13px;
+      }
+
+      .form-container {
+        padding: 30px 28px 32px;
+      }
+
+      /* step indicator */
+      .step-indicator {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        position: relative;
+      }
+
+      .step {
+        flex: 1;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .step-circle {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s;
+      }
+
+      .step.active .step-circle {
+        background: linear-gradient(135deg, #00c6fb, #005bea);
+        border-color: #00c6fb;
+        color: white;
+        box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
+      }
+
+      .step.completed .step-circle {
+        background: #10b981;
+        border-color: #10b981;
+        color: white;
+      }
+
+      .step.completed .step-circle i {
+        font-size: 20px;
+      }
+
+      .step-label {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .step.active .step-label {
+        color: #00c6fb;
+        font-weight: 500;
+      }
+
+      .step-line {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.1);
+        z-index: 1;
+        transform: translateY(-50%);
+      }
+
+      .step-line-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #00c6fb, #10b981);
+        transition: width 0.4s ease;
+      }
+
+      /* panels */
+      .panel {
+        display: none;
+        animation: fadeSlide 0.35s ease;
+      }
+
+      .panel.active-panel {
+        display: block;
+      }
+
+      @keyframes fadeSlide {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .form-group {
+        margin-bottom: 22px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 13px;
+      }
+
+      .input-container {
+        position: relative;
+      }
+
+      .input-container i.input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 16px;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 14px 20px 14px 48px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1.5px solid rgba(255, 255, 255, 0.12);
+        border-radius: 14px;
+        font-size: 14px;
+        color: white;
+        transition: all 0.25s;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #00c6fb;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .otp-group {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .otp-group .form-control {
+        flex: 1;
+      }
+
+      .btn-send-otp {
+        background: rgba(0, 198, 251, 0.2);
+        border: 1px solid rgba(0, 198, 251, 0.4);
+        padding: 0 18px;
+        border-radius: 40px;
+        color: #00c6fb;
+        font-weight: 500;
+        font-size: 13px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s;
+        height: 48px;
+      }
+
+      .btn-send-otp:hover:not(:disabled) {
+        background: rgba(0, 198, 251, 0.4);
+        transform: scale(0.98);
+      }
+
+      .btn-send-otp:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .timer-text {
+        font-size: 12px;
+        margin-top: 8px;
+        color: #00c6fb;
+        text-align: right;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.25s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(95deg, #00c6fb, #005bea);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 198, 255, 0.3);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .error-msg {
+        font-size: 12px;
+        margin-top: 6px;
+        color: #ff8a7a;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .strength-meter {
+        height: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        margin: 12px 0 8px;
+        overflow: hidden;
+      }
+      .strength-fill {
+        width: 0%;
+        height: 100%;
+        transition: width 0.25s;
+      }
+      .strength-text {
+        font-size: 11px;
+        text-align: right;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .requirements {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 14px;
+        padding: 14px;
+        margin: 18px 0;
+      }
+      .requirements ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+        list-style: none;
+      }
+      .requirements li {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.6);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .requirements li.valid {
+        color: #10b981;
+      }
+      .footer {
+        text-align: center;
+        padding: 16px;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.4);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .back-link {
+        margin-top: 12px;
+        text-align: center;
+      }
+      .back-link a {
+        color: #00c6fb;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s;
+      }
+      .loading-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .tooth-spinner {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(45deg, #00c6fb, #005bea);
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: spinLoader 1s infinite;
+      }
+      @keyframes spinLoader {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @media (max-width: 480px) {
+        .form-container {
+          padding: 24px 20px;
+        }
+        .step-circle {
+          width: 34px;
+          height: 34px;
+          font-size: 14px;
+        }
+      }
+
+      .resend-otp {
+        font-size: 14px;
+        color: #9aa4b2;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      /* Hover effect */
+      .resend-otp:hover {
+        color: #00c6ff;
+        text-decoration: underline;
+      }
+
+      /* Click effect */
+      .resend-otp:active {
+        transform: scale(0.95);
+      }
+
+      /* Disabled state (timer use karaddi) */
+      .resend-otp.disabled {
+        color: #555;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      /* #resendOtpId {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        color: azure;
+        align-items: center;
+      } */
+    </style>
+  </head>
+  <body>
+    <div class="floating-teeth">
+      <i class="fas fa-tooth"></i><i class="fas fa-tooth"></i
+      ><i class="fas fa-tooth"></i><i class="fas fa-tooth"></i
+      ><i class="fas fa-tooth"></i>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="tooth-spinner">
+        <i class="fas fa-tooth" style="font-size: 36px; color: white"></i>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="reset-card">
+        <div class="header">
+          <div class="header-icon"><i class="fas fa-lock"></i></div>
+          <h1 id="resendOtpLinkId">Reset Password</h1>
+          <p>Secure your dental account</p>
+        </div>
+
+        <div class="form-container">
+          <!-- Step Progress -->
+          <div class="step-indicator">
+            <div class="step-line">
+              <div class="step-line-fill" id="stepLineFill"></div>
+            </div>
+            <div class="step" id="step1Box">
+              <div class="step-circle" id="step1Circle">1</div>
+              <div class="step-label">Verify OTP</div>
+            </div>
+            <div class="step" id="step2Box">
+              <div class="step-circle" id="step2Circle">2</div>
+              <div class="step-label">New Password</div>
+            </div>
+          </div>
+
+          <!-- PANEL 1: OTP Verification -->
+          <div id="panelOtp" class="panel active-panel">
+            <div class="form-group">
+              <label><i class="fas fa-envelope"></i> User name</label>
+              <div class="input-container">
+                <i class="fas fa-user input-icon"></i>
+                <input
+                  type="text"
+                  id="usernamrForOtpId"
+                  class="form-control"
+                  placeholder="Enter registered User name"
+                />
+              </div>
+              <div
+                id="emailError"
+                class="error-msg"
+                style="display: none"
+              ></div>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-key"></i> OTP Code</label>
+              <div class="otp-group">
+                <div class="input-container" style="flex: 1">
+                  <i class="fas fa-shield-alt input-icon"></i>
+                  <input
+                    type="text"
+                    id="otpInput"
+                    class="form-control"
+                    placeholder="6-digit OTP"
+                    maxlength="6"
+                  />
+                </div>
+                <button type="button" id="sendOtpBtn" class="btn-send-otp">
+                  Send OTP
+                </button>
+              </div>
+              <div class="otp-group">
+                <span id="resendOtpId" class="resend-otp">Resend OTP</span>
+              </div>
+
+              <div id="otpTimer" class="timer-text"></div>
+              <div id="otpError" class="error-msg" style="display: none"></div>
+            </div>
+
+            <button id="verifyOtpBtn" class="btn btn-primary">
+              <i class="fas fa-check-circle"></i> Verify OTP
+            </button>
+            <div class="back-link">
+              <a href="#" id="backToLogin"
+                ><i class="fas fa-arrow-left"></i> Back to Login</a
+              >
+            </div>
+          </div>
+
+          <!-- PANEL 2: Set New Password -->
+          <div id="panelPassword" class="panel">
+            <div class="form-group">
+              <label><i class="fas fa-lock"></i> New Password</label>
+              <div class="input-container">
+                <i class="fas fa-key input-icon"></i>
+                <input
+                  type="password"
+                  id="newPassword"
+                  class="form-control"
+                  placeholder="Create strong password"
+                />
+              </div>
+              <div class="strength-meter">
+                <div class="strength-fill" id="strengthFill"></div>
+              </div>
+              <div class="strength-text" id="strengthLabel">Very Weak</div>
+            </div>
+
+            <div class="form-group">
+              <label
+                ><i class="fas fa-check-circle"></i> Confirm Password</label
+              >
+              <div class="input-container">
+                <i class="fas fa-check input-icon"></i>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  class="form-control"
+                  placeholder="Confirm password"
+                />
+              </div>
+              <div
+                id="matchMsg"
+                class="error-msg"
+                style="font-size: 12px"
+              ></div>
+            </div>
+
+            <div class="requirements">
+              <ul id="reqList">
+                <li id="reqLen"><i class="fas fa-circle"></i> 8+ characters</li>
+                <li id="reqUpper">
+                  <i class="fas fa-circle"></i> Uppercase (A-Z)
+                </li>
+                <li id="reqLower">
+                  <i class="fas fa-circle"></i> Lowercase (a-z)
+                </li>
+                <li id="reqNum"><i class="fas fa-circle"></i> Number (0-9)</li>
+                <li id="reqSpec">
+                  <i class="fas fa-circle"></i> Special (!@#$%^&*)
+                </li>
+              </ul>
+            </div>
+
+            <button id="resetPasswordBtn" class="btn btn-primary">
+              <i class="fas fa-save"></i> Update Password
+            </button>
+            <div class="back-link">
+              <a href="#" id="backToOtpStep"
+                ><i class="fas fa-chevron-left"></i> Back to OTP</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <p>
+            <i class="fas fa-shield-heart"></i> OTP valid for 2 minutes | Demo
+            mode: OTP = 123456
+          </p>
+        </div>
+      </div>
+    </div>
+    <script src="../js/OtpConfirmPage.js"></script>
+  </body>
+</html>

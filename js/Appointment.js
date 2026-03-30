@@ -136,6 +136,7 @@ $("#saveAppointmentBtn").on("click", () => {
         }).then(() => {
           cleare();
           getAllpation();
+          lodeNextId();
         });
       } else {
         Swal.fire({

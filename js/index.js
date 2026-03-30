@@ -1,3 +1,13 @@
+// $(document).ready(function () {
+//   $("username").val("");
+//   $("password").val("");
+// });
+
+$(window).on("load", function () {
+  $("#username").val("");
+  $("#password").val("");
+});
+
 // Password Toggle
 function togglePassword() {
   const passwordInput = document.getElementById("password");
@@ -218,15 +228,30 @@ $("#loginButten").on("click", () => {
       } else {
         Swal.fire({
           icon: "error",
-          title: "Save Failed",
-          text: data.messege,
+          title: "⛔ Access Denied",
+          text: "Please enter valide  username of password",
           background: "#1e1e2f",
-          color: "#ffffff",
-          iconColor: "#ff4d4f",
+          backdrop: "rgba(0,0,0,0.7)",
+          showConfirmButton: true,
+          confirmButtonText: "✋ Understood",
+          confirmButtonColor: "#00c6fb",
+          showCancelButton: true,
+          cancelButtonText: "🚪 Go Back",
+          cancelButtonColor: "#ff4d4f",
+          reverseButtons: true,
+          timer: 4000,
+          timerProgressBar: true,
+          showClass: {
+            popup: "animate__animated animate__bounceIn",
+          },
+          hideClass: {
+            popup: "animate__animated animate__bounceOut",
+          },
         });
       }
     },
     error: function (jqXHR) {
+      // const massege = jqXHR.responseJSON.massege;
       console.log("============");
       let message = "";
       if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
@@ -241,7 +266,7 @@ $("#loginButten").on("click", () => {
 
       Swal.fire({
         icon: "error",
-        title: "Saved Failed",
+        title: "⛔ Access Denied",
         text: message,
 
         background: "#1e1e2f",
@@ -307,9 +332,30 @@ $("#forgotPasswordLink").on("click", () => {
   const username = $("#username").val();
   if (!username) {
     Swal.fire({
-      icon: "Error",
-      title: "Please enter Your password !",
+      icon: "error",
+      title: "⛔ Please enter Your Username !",
+      text: "",
+
+      background: "#1e1e2f",
+      color: "#f1f1f1",
+
+      iconColor: "#ff4d4f",
+
+      confirmButtonText: "OK",
+      confirmButtonColor: "#ff4d4f",
+
+      showClass: {
+        popup: "animate__animated animate__fadeInDown",
+      },
+      hideClass: {
+        popup: "animate__animated animate__fadeOutUp",
+      },
+
+      timer: 3000,
+      timerProgressBar: true,
+      allowOutsideClick: false,
     });
+
     return;
   }
   $.ajax({

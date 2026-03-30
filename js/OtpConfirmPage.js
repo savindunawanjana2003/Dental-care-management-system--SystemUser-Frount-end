@@ -1,3 +1,7 @@
+$(window).on("load", function () {
+  $("#usernamrForOtpId").val(localStorage.getItem("uName"));
+});
+
 $(document).ready(function () {
   // State variables
   let otpSent = false;
@@ -29,98 +33,6 @@ $(document).ready(function () {
   const $strengthFill = $("#strengthFill");
   const $strengthLabel = $("#strengthLabel");
   const $resetBtn = $("#resetPasswordBtn");
-
-  // Helper functions
-  // function showLoading(show) {
-  //   if (show) $loadingOverlay.addClass("active");
-  //   else $loadingOverlay.removeClass("active");
-  // }
-
-  // function showStep(step) {
-  //   if (step === 1) {
-  //     $panelOtp.addClass("active-panel");
-  //     $panelPassword.removeClass("active-panel");
-  //     $step1Circle
-  //       .html("1")
-  //       .removeClass("fa-check")
-  //       .css({ background: "", border: "" });
-  //     $step2Circle.html("2");
-  //     $step1Box.addClass("active").removeClass("completed");
-  //     $step2Box.removeClass("active completed");
-  //     $stepLineFill.css("width", "0%");
-  //     if (otpVerified) {
-  //       // if somehow back, reset verification flag? keep consistent
-  //     }
-  //   } else if (step === 2) {
-  //     $panelOtp.removeClass("active-panel");
-  //     $panelPassword.addClass("active-panel");
-  //     $step1Circle.html('<i class="fas fa-check"></i>');
-  //     $step1Box.addClass("completed").removeClass("active");
-  //     $step2Box.addClass("active").removeClass("completed");
-  //     $step2Circle.html("2");
-  //     $stepLineFill.css("width", "100%");
-  //   }
-  // }
-
-  // function resetOtpTimer() {
-  //   if (timerInterval) clearInterval(timerInterval);
-  //   remainingSeconds = 120; // 2 minutes
-  //   $otpTimer.html(
-  //     `<i class="fas fa-hourglass-half"></i> OTP expires in ${Math.floor(remainingSeconds / 60)}:${(remainingSeconds % 60).toString().padStart(2, "0")}`,
-  //   );
-  //   timerInterval = setInterval(() => {
-  //     if (remainingSeconds <= 1) {
-  //       clearInterval(timerInterval);
-  //       $otpTimer.html(
-  //         `<i class="fas fa-clock"></i> OTP expired. Request again.`,
-  //       );
-  //       otpSent = false;
-  //       $sendOtpBtn.prop("disabled", false).text("Send OTP");
-  //     } else {
-  //       remainingSeconds--;
-  //       $otpTimer.html(
-  //         `<i class="fas fa-hourglass-half"></i> OTP expires in ${Math.floor(remainingSeconds / 60)}:${(remainingSeconds % 60).toString().padStart(2, "0")}`,
-  //       );
-  //     }
-  //   }, 1000);
-  // }
-
-  // // Send OTP action (simulate)
-  // function sendOtp() {
-  //   let email = $emailInput.val().trim();
-  //   if (!email) {
-  //     $emailError.text("Email is required").show();
-  //     return false;
-  //   }
-  //   if (!email.includes("@") || !email.includes(".")) {
-  //     $emailError.text("Enter a valid email address").show();
-  //     return false;
-  //   }
-  //   $emailError.hide();
-  //   showLoading(true);
-  //   setTimeout(() => {
-  //     showLoading(false);
-  //     // Demo: OTP always 123456, but we simulate sending
-  //     generatedOtp = "123456";
-  //     otpSent = true;
-  //     resetOtpTimer();
-  //     $sendOtpBtn.prop("disabled", true).text("OTP Sent");
-  //     Swal.fire({
-  //       icon: "info",
-  //       title: "OTP Sent!",
-  //       text: `Demo OTP: 123456 (use this to verify)`,
-  //       background: "#1f1a2e",
-  //       color: "#fff",
-  //       toast: false,
-  //       timer: 2500,
-  //       showConfirmButton: true,
-  //       confirmButtonColor: "#00c6fb",
-  //     });
-  //     $otpError.hide();
-  //     $otpInput.val("");
-  //   }, 800);
-  //   return true;
-  // }
 
   function verifyOtp() {
     if (!otpSent) {
@@ -275,22 +187,6 @@ $(document).ready(function () {
     }, 1000);
   }
 
-  // Event handlers
-  // $sendOtpBtn.on("click", sendOtp);
-  // $verifyOtpBtn.on("click", verifyOtp);
-  // $("#backToLogin").on("click", function (e) {
-  //   e.preventDefault();
-  //   window.location.href = "../login.html";
-  // });
-  // $("#backToOtpStep").on("click", function (e) {
-  //   e.preventDefault();
-  //   if (otpVerified) {
-  //     // keep otp verified but allow back to step 1? but we can reset? we allow back but we keep verified? Better keep step1 with resetting?
-  //     // allow user to go back but they still verified? For better UX, we keep verified true but they can view OTP panel.
-  //   }
-  //   showStep(1);
-  // });
-
   $newPassword.on("input", function () {
     checkStrength($(this).val());
     checkMatch();
@@ -307,9 +203,9 @@ $(document).ready(function () {
   generatedOtp = "123456";
 });
 // ======================
-$("#verifyOtpBtn").on("click", () => {
-  alert("jkldew");
-});
+// $("#verifyOtpBtn").on("click", () => {
+//   alert("jkldew");
+// });
 //   ==================
 
 // =============
@@ -326,7 +222,7 @@ $("#sendOtpBtn").on("click", () => {
   }
 
   $.ajax({
-    url: `http://localhost:8080/api/v1/dentalcare/passwordResetController/resentOtp?username=${localStorage.getItem("uName")}`,
+    url: `http://localhost:8080/api/v1/dentalcare/passwordResetController/sendMail?username=${localStorage.getItem("uName")}`,
     method: "GET",
     contentType: "application/json",
     success: function (res) {
@@ -339,22 +235,50 @@ $("#sendOtpBtn").on("click", () => {
   });
 });
 
-// ============================
+$("#resendOtpId").on("click", () => {
+  //  resentOtp
 
-window.onload = function () {
   $.ajax({
-    url: `api/v1/dentalcare/auth/passwordResetController/genarateOtp?username=${localStorage.getItem("uName")}`,
+    url: `http://localhost:8080/api/v1/dentalcare/passwordResetController/resentOtp?username=${localStorage.getItem("uName")}`,
     method: "GET",
     contentType: "application/json",
     success: function (res) {
-      alert("okkk");
+      let appointments = res.data;
     },
 
     error: function (err) {
       console.error(err);
-      alert(" error ekak thiyeiii");
     },
   });
-};
+});
+// =====================
+$("#verifyOtpBtn").on("click", () => {
+  $.ajax({
+    url: `http://localhost:8080/api/v1/dentalcare/passwordResetController/chekOtpIsValid?username=${localStorage.getItem("uName")}&otp=${$("#otpInput").val()}`,
+    method: "GET",
+    contentType: "application/json",
+    success: function (res) {
+      let rsp = res.data;
 
-$("#resendOtpId").on("click", () => {});
+      if (rsp == true) {
+        window.location.href = "../pages/frogetPassword.html";
+      }
+
+      alert(rsp);
+      console.log("====================**");
+      console.log(rsp);
+    },
+
+    error: function (err) {
+      console.error(err + "==============");
+    },
+  });
+});
+
+$("#backToLogin").on("click",()=>{
+// alert("ksjd")
+window.location.href = "../index.html";
+
+})
+
+//

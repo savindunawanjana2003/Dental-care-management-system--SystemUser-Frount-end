@@ -1,306 +1,222 @@
 $(document).ready(function () {
-  // DOM Elements
-  const newPasswordInput = document.getElementById("newPassword");
-  const confirmPasswordInput = document.getElementById("confirmPassword");
-  const toggleNewPassword = document.getElementById("toggleNewPassword");
-  const toggleConfirmPassword = document.getElementById(
-    "toggleConfirmPassword",
-  );
-  const submitBtn = document.getElementById("submitBtn");
-  const cancelBtn = document.getElementById("cancelBtn");
-  const strengthFill = document.getElementById("strengthFill");
-  const strengthValue = document.getElementById("strengthValue");
-  const passwordMatchElement = document.getElementById("passwordMatch");
-  const statusMessage = document.getElementById("statusMessage");
-  const statusText = document.getElementById("statusText");
-  const loading = document.getElementById("loading");
+  // DOM elements
+  const $newPass = $("#newPassword");
+  const $confirmPass = $("#confirmPassword");
+  const $strengthFill = $("#strengthFill");
+  const $strengthValue = $("#strengthValue");
+  const $submitBtn = $("#submitBtn");
+  const $cancelBtn = $("#cancelBtn");
+  const $loading = $("#loading");
+  const $statusMsg = $("#statusMessage");
+  const $statusText = $("#statusText");
 
-  // Requirements elements
-  const reqLength = document.getElementById("reqLength");
-  const reqUppercase = document.getElementById("reqUppercase");
-  const reqLowercase = document.getElementById("reqLowercase");
-  const reqNumber = document.getElementById("reqNumber");
-  const reqSpecial = document.getElementById("reqSpecial");
+  // Requirements mapping
+  const requirements = {
+    length: {
+      element: $("#reqLength"),
+      condition: (pwd) => pwd.length >= 6,
+    },
+    uppercase: {
+      element: $("#reqUppercase"),
+      condition: (pwd) => /[A-Z]/.test(pwd),
+    },
+    lowercase: {
+      element: $("#reqLowercase"),
+      condition: (pwd) => /[a-z]/.test(pwd),
+    },
+    number: {
+      element: $("#reqNumber"),
+      condition: (pwd) => /[0-9]/.test(pwd),
+    },
+    // special: {
+    //   element: $("#reqSpecial"),
+    //   condition: (pwd) => /[!@#$%^&*]/.test(pwd),
+    // },
+  };
 
-  // Toggle Password Visibility
-  function togglePassword(input, toggle) {
-    const type = input.type === "password" ? "text" : "password";
-    input.type = type;
-    const icon = toggle.querySelector("i");
-    icon.classList.toggle("fa-eye");
-    icon.classList.toggle("fa-eye-slash");
+  function updateRequirements(pwd) {
+    let validCount = 0;
+    for (let key in requirements) {
+      const isValid = requirements[key].condition(pwd);
+      if (isValid) {
+        requirements[key].element.addClass("valid");
+        validCount++;
+      } else {
+        requirements[key].element.removeClass("valid");
+      }
+    }
+    return validCount;
   }
 
-  toggleNewPassword.addEventListener("click", () => {
-    togglePassword(newPasswordInput, toggleNewPassword);
-  });
-
-  toggleConfirmPassword.addEventListener("click", () => {
-    togglePassword(confirmPasswordInput, toggleConfirmPassword);
-  });
-
-  // Check Password Strength
-  function checkPasswordStrength(password) {
-    let strength = 0;
-    const requirements = {
-      length: false,
-      uppercase: false,
-      lowercase: false,
-      number: false,
-      special: false,
-    };
-
-    // Length check
-    if (password.length >= 8) {
-      strength += 20;
-      requirements.length = true;
-    }
-
-    // Uppercase check
-    if (/[A-Z]/.test(password)) {
-      strength += 20;
-      requirements.uppercase = true;
-    }
-
-    // Lowercase check
-    if (/[a-z]/.test(password)) {
-      strength += 20;
-      requirements.lowercase = true;
-    }
-
-    // Number check
-    if (/[0-9]/.test(password)) {
-      strength += 20;
-      requirements.number = true;
-    }
-
-    // Special character check
-    if (/[!@#$%^&*]/.test(password)) {
-      strength += 20;
-      requirements.special = true;
-    }
-
-    // Update strength meter
-    strengthFill.style.width = strength + "%";
-
-    // Update strength text and color
-    let strengthText = "";
-    let color = "";
-
-    if (password.length === 0) {
-      strengthText = "Very Weak";
-      color = "#ef4444";
-    } else if (strength < 40) {
-      strengthText = "Very Weak";
-      color = "#ef4444";
-    } else if (strength < 60) {
-      strengthText = "Weak";
-      color = "#f97316";
-    } else if (strength < 80) {
-      strengthText = "Fair";
-      color = "#eab308";
-    } else if (strength < 100) {
-      strengthText = "Good";
-      color = "#10b981";
-    } else {
-      strengthText = "Strong";
-      color = "#10b981";
-    }
-
-    strengthFill.style.backgroundColor = color;
-    strengthValue.textContent = strengthText;
-    strengthValue.style.color = color;
-
-    // Update requirement indicators
-    updateRequirement(reqLength, requirements.length);
-    updateRequirement(reqUppercase, requirements.uppercase);
-    updateRequirement(reqLowercase, requirements.lowercase);
-    updateRequirement(reqNumber, requirements.number);
-    updateRequirement(reqSpecial, requirements.special);
-
-    return strength;
+  function getStrengthLevel(validCount, pwdLen) {
+    if (pwdLen === 0)
+      return { text: "Very Weak", width: "10%", color: "#e11d48" };
+    if (validCount <= 1)
+      return { text: "Very Weak", width: "20%", color: "#e11d48" };
+    if (validCount === 2)
+      return { text: "Weak", width: "35%", color: "#f59e0b" };
+    if (validCount === 3)
+      return { text: "Fair", width: "55%", color: "#fbbf24" };
+    if (validCount === 4)
+      return { text: "Good", width: "75%", color: "#10b981" };
+    return { text: "Strong", width: "95%", color: "#10b981" };
   }
 
-  // Update Requirement Indicator
-  function updateRequirement(element, isValid) {
-    if (isValid) {
-      element.classList.add("valid");
-      const icon = element.querySelector("i");
-      icon.classList.remove("fa-circle");
-      icon.classList.add("fa-check-circle");
-    } else {
-      element.classList.remove("valid");
-      const icon = element.querySelector("i");
-      icon.classList.remove("fa-check-circle");
-      icon.classList.add("fa-circle");
-    }
+  function updateStrengthMeter() {
+    const pwd = $newPass.val();
+    const validCount = updateRequirements(pwd);
+    const level = getStrengthLevel(validCount, pwd.length);
+    $strengthValue.text(level.text);
+    $strengthFill.css({
+      width: level.width,
+      backgroundColor: level.color,
+    });
   }
 
-  // Check Password Match
   function checkPasswordMatch() {
-    const password = newPasswordInput.value;
-    const confirm = confirmPasswordInput.value;
-
-    if (confirm === "") {
-      passwordMatchElement.innerHTML = "";
+    const newPwd = $newPass.val();
+    const confirmPwd = $confirmPass.val();
+    const $matchDiv = $("#passwordMatch");
+    if (confirmPwd === "") {
+      $matchDiv.html("");
       return false;
     }
-
-    if (password === confirm) {
-      passwordMatchElement.innerHTML =
-        '<i class="fas fa-check-circle" style="color: #10b981;"></i> <span style="color: #10b981;">Passwords match</span>';
+    if (newPwd === confirmPwd) {
+      $matchDiv.html(
+        '<i class="fas fa-check-circle" style="color:#10b981"></i> <span style="color:#10b981">Passwords match</span>',
+      );
       return true;
     } else {
-      passwordMatchElement.innerHTML =
-        '<i class="fas fa-exclamation-circle" style="color: #ef4444;"></i> <span style="color: #ef4444;">Passwords do not match</span>';
+      $matchDiv.html(
+        '<i class="fas fa-times-circle" style="color:#ef4444"></i> <span style="color:#ef4444">Passwords do not match</span>',
+      );
       return false;
     }
   }
 
-  // Show Status Message
-  function showStatus(message, type) {
-    statusText.textContent = message;
-    statusMessage.className = "status-message message-" + type;
-    statusMessage.style.display = "flex";
-
-    setTimeout(() => {
-      statusMessage.style.display = "none";
-    }, 5000);
+  function isPasswordValid() {
+    const pwd = $newPass.val();
+    const lengthOk = pwd.length >= 6;
+    const upperOk = /[A-Z]/.test(pwd);
+    const lowerOk = /[a-z]/.test(pwd);
+    const numberOk = /[0-9]/.test(pwd);
+    // const specialOk = /[!@#$%^&*]/.test(pwd);
+    return lengthOk && upperOk && lowerOk && numberOk;
   }
 
-  // Validate Form
   function validateForm() {
-    const password = newPasswordInput.value.trim();
-    const confirm = confirmPasswordInput.value.trim();
-
-    if (password === "") {
-      showStatus("Please enter a new password", "error");
-      newPasswordInput.focus();
-      return false;
-    }
-
-    const strength = checkPasswordStrength(password);
-    if (strength < 60) {
-      showStatus("Please use a stronger password", "error");
-      newPasswordInput.focus();
-      return false;
-    }
-
-    if (!checkPasswordMatch()) {
-      showStatus("Passwords do not match", "error");
-      confirmPasswordInput.focus();
-      return false;
-    }
-
-    return true;
+    const pwdValid = isPasswordValid();
+    const matchOk = checkPasswordMatch();
+    return pwdValid && matchOk && $newPass.val().length > 0;
   }
 
-  // Submit Form
-  $("#submitBtn").on("click", function () {
-    if (validateForm()) {
-      // Show loading
-      loading.classList.add("active");
+  function showMessage(text, isError) {
+    $statusMsg.removeClass("message-success message-error");
+    $statusMsg.addClass(isError ? "message-error" : "message-success");
+    $statusText.text(text);
+    $statusMsg.fadeIn(180);
+    setTimeout(() => {
+      $statusMsg.fadeOut(300);
+    }, 3600);
+  }
 
-      // Disable button
-      submitBtn.disabled = true;
-      submitBtn.innerHTML =
-        '<i class="fas fa-spinner fa-spin"></i> Setting Password...';
-
-      // Get email from localStorage
-      const emailinStorege = localStorage.getItem("emailinStorege");
-      console.log("Email:", emailinStorege);
-
-      // API Call
-      $.ajax({
-        url: "http://localhost:8080/login_war_exploded/ChengePassword",
-        method: "PUT",
-        contentType: "application/json",
-        data: JSON.stringify({
-          newPassword: $("#confirmPassword").val().trim(),
-          email: emailinStorege,
-        }),
-        success: function (response) {
-          loading.classList.remove("active");
-          showStatus(
-            "Password changed successfully! Redirecting to login...",
-            "success",
-          );
-
-          // Reset form
-          $("#passwordForm")[0].reset();
-          strengthFill.style.width = "10%";
-          strengthValue.textContent = "Very Weak";
-          strengthValue.style.color = "#ef4444";
-
-          // Reset requirements
-          $(".requirement-list li").removeClass("valid");
-          $(".requirement-list li i")
-            .removeClass("fa-check-circle")
-            .addClass("fa-circle");
-
-          // Redirect to login after 2 seconds
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 2000);
-        },
-        error: function (xhr, status, error) {
-          loading.classList.remove("active");
-          showStatus(
-            "Error: " + (xhr.responseText || "Failed to change password"),
-            "error",
-          );
-        },
-        complete: function () {
-          // Re-enable button
-          submitBtn.disabled = false;
-          submitBtn.innerHTML =
-            '<i class="fas fa-check-circle"></i> Set Password';
-        },
-      });
-    }
-  });
-
-  // Real-time validation
-  newPasswordInput.addEventListener("input", function () {
-    checkPasswordStrength(this.value);
+  // Event listeners
+  $newPass.on("input", function () {
+    updateStrengthMeter();
     checkPasswordMatch();
   });
 
-  confirmPasswordInput.addEventListener("input", checkPasswordMatch);
-
-  // Cancel button
-  cancelBtn.addEventListener("click", function () {
-    if (confirm("Are you sure you want to cancel? Any changes will be lost.")) {
-      $("#passwordForm")[0].reset();
-      strengthFill.style.width = "10%";
-      strengthValue.textContent = "Very Weak";
-      strengthValue.style.color = "#ef4444";
-      passwordMatchElement.innerHTML = "";
-      statusMessage.style.display = "none";
-
-      // Reset requirements
-      $(".requirement-list li").removeClass("valid");
-      $(".requirement-list li i")
-        .removeClass("fa-check-circle")
-        .addClass("fa-circle");
-    }
+  $confirmPass.on("input", function () {
+    checkPasswordMatch();
   });
 
-  // Mouse parallax effect
-  document.addEventListener("mousemove", function (e) {
-    const teeth = document.querySelectorAll(".floating-teeth i");
-    const mouseX = e.clientX / window.innerWidth;
-    const mouseY = e.clientY / window.innerHeight;
+  // toggle visibility
+  $("#toggleNewPassword").on("click", function () {
+    const type = $newPass.attr("type") === "password" ? "text" : "password";
+    $newPass.attr("type", type);
+    $(this).find("i").toggleClass("fa-eye fa-eye-slash");
+  });
+  $("#toggleConfirmPassword").on("click", function () {
+    const type = $confirmPass.attr("type") === "password" ? "text" : "password";
+    $confirmPass.attr("type", type);
+    $(this).find("i").toggleClass("fa-eye fa-eye-slash");
+  });
 
-    teeth.forEach((tooth, index) => {
-      const speed = index + 1;
-      const x = (window.innerWidth - mouseX * speed) / 100;
-      const y = (window.innerHeight - mouseY * speed) / 100;
-      tooth.style.transform = `translate(${x}px, ${y}px)`;
+  // Cancel button: redirect or clear
+  $cancelBtn.on("click", function () {
+    Swal.fire({
+      title: "Cancel?",
+      text: "Are you sure you want to cancel? Your password won't be changed.",
+      icon: "question",
+      background: "#1e1a2f",
+      color: "#fff",
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6c757d",
+      showCancelButton: true,
+      confirmButtonText: "Yes, cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "../index.html"; // fallback to login
+      }
     });
   });
 
-  // Initialize
-  checkPasswordStrength("");
+  // Submit: simulate password reset with SweetAlert & loading
+  $submitBtn.on("click", function () {
+    if (!validateForm()) {
+      let errorMsg = "";
+      if (!isPasswordValid())
+        errorMsg = "Password does not meet all requirements.";
+      else if (!checkPasswordMatch()) errorMsg = "Passwords do not match.";
+      else errorMsg = "Please fill all fields correctly.";
+      showMessage(errorMsg, true);
+      return;
+    }
+
+    // ======================================
+
+    const password = $("#newPassword").val();
+    $.ajax({
+      url: `http://localhost:8080/api/v1/dentalcare/passwordResetController/updatePassword?username=${localStorage.getItem("uName")}&password=${password}`,
+      method: "POST",
+      contentType: "application/json",
+      success: function (res) {
+        let rsp = res.data;
+
+        if (rsp == true) {
+          $loading.addClass("active");
+          // Simulate API call
+          setTimeout(() => {
+            $loading.removeClass("active");
+            Swal.fire({
+              icon: "success",
+              title: "Password Updated!",
+              text: "Your password has been successfully reset. You can now log in.",
+              background: "#1f1a2e",
+              color: "#ffffff",
+              confirmButtonColor: "#00c6fb",
+              confirmButtonText: "Go to Login",
+            }).then(() => {
+              // redirect to login page after success
+              window.location.href = "../index.html";
+            });
+          }, 1000);
+        }
+
+        alert(rsp);
+        console.log("====================**");
+        console.log(rsp);
+      },
+
+      error: function (err) {
+        console.error(err + "==============");
+      },
+    });
+
+    // ======================================
+  });
+
+  // initial updates
+  updateStrengthMeter();
   checkPasswordMatch();
 });

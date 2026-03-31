@@ -1,51 +1,55 @@
 // Sample Data
-
+// ========================================meka danne  man dan hari eka edit karanna yana nisa ===================================
 window.onload = function () {
-  // inputStyles();
-  // const selectedDoctor = "D001";
-  // const date = "2026-03-31";
-  // $.ajax({
-  //   url: `http://localhost:8080/api/v1/dentalcare/AppointmentController/${selectedDoctor}/${date}`,
-  //   method: "GET",
-  //   contentType: "application/json",
-  //   headers: {
-  //     Authorization: "Bearer " + localStorage.getItem("usertoken"),
-  //   },
-  //   success: function (res) {
-  //     console.log(res);
-  //     // const tabody = $("#appointmentsTableBody");
-  //     // tabody.empty();
-  //     let appointments = res.data;
-  //     trackingPatients.splice(0, trackingPatients.length);
-  //     for (let i = 0; i < appointments.length; i++) {
-  //       const apoinmant = appointments[i];
-  //       console.log(
-  //         apoinmant.pationname +
-  //           " / " +
-  //           apoinmant.doctorFullpayment +
-  //           " " +
-  //           apoinmant.status,
-  //       );
-  //       console.log("===============================");
-  //       const apinmat = {
-  //         id: apoinmant.pationId,
-  //         name: apoinmant.pationname,
-  //         time: apoinmant.appointmentTime,
-  //         treatment: apoinmant.doctorFullpayment,
-  //         paid: apoinmant.avelablePayment,
-  //         status: apoinmant.status,
-  //         paymentStatus: apoinmant.doctorChargeStetus,
-  //       };
-  //       trackingPatients.push(apinmat);
-  //     }
-  //     // =============
-  //     updatePatientList();
-  //     //  ============
-  //   },
-  //   error: function (err) {
-  //     console.error(err);
-  //   },
-  // });
+  inputStyles();
+  const selectedDoctor = "D001";
+  const date = "2026-03-31";
+  $.ajax({
+    url: `http://localhost:8080/api/v1/dentalcare/AppointmentController/${selectedDoctor}/${date}`,
+    method: "GET",
+    contentType: "application/json",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("usertoken"),
+    },
+    success: function (res) {
+      console.log(res);
+      // const tabody = $("#appointmentsTableBody");
+      // tabody.empty();
+      let appointments = res.data;
+
+      trackingPatients.splice(0, trackingPatients.length);
+      for (let i = 0; i < appointments.length; i++) {
+        const apoinmant = appointments[i];
+        console.log(
+          apoinmant.pationname +
+            " / " +
+            apoinmant.doctorFullpayment +
+            " " +
+            apoinmant.status,
+        );
+        console.log("===============================");
+        const apinmat = {
+          id: apoinmant.pationId,
+          name: apoinmant.pationname,
+          time: apoinmant.appointmentTime,
+          treatment: apoinmant.doctorFullpayment,
+          paid: apoinmant.avelablePayment,
+          status: apoinmant.status,
+          paymentStatus: apoinmant.doctorChargeStetus,
+        };
+
+        trackingPatients.push(apinmat);
+      }
+
+      // =============
+      updatePatientList();
+      //  ============
+    },
+
+    error: function (err) {
+      console.error(err);
+    },
+  });
 };
 
 function getAll() {
@@ -77,11 +81,15 @@ function getAll() {
 }
 // =============================
 $("#doctorSelectionId").on("change", function () {
-  const value = $(this).val();
+  inputStyles();
+  const value = $(this).val(); // 2000, 5000...
   const text = $(this).find("option:selected").text();
-
+  // -----------------------
+  const today = new Date();
+  const formattedDate = today.toISOString().split("T")[0];
+  // -----------------------
   $.ajax({
-    url: `http://localhost:8080/api/v1/dentalcare/AppointmentController/${value}/${new Date().toISOString().split("T")[0]}`,
+    url: `http://localhost:8080/api/v1/dentalcare/AppointmentController/${value}/${formattedDate}`,
     method: "GET",
     contentType: "application/json",
     headers: {
@@ -93,10 +101,10 @@ $("#doctorSelectionId").on("change", function () {
       // const tabody = $("#appointmentsTableBody");
       // tabody.empty();
       let appointments = res.data;
-      trackingPatients.splice(0, trackingPatients.length);
-      trackingPatients.length = 0;
 
-      console.log("************************************");
+      // trackingPatients.splice(0, trackingPatients.length);
+      // trackingPatients.length = 0;
+
       for (let i = 0; i < appointments.length; i++) {
         const apoinmant = appointments[i];
         console.log(
@@ -106,7 +114,7 @@ $("#doctorSelectionId").on("change", function () {
             " " +
             apoinmant.status,
         );
-        // console.log("===============================");
+        console.log("===============================");
         const apinmat = {
           id: apoinmant.pationId,
           name: apoinmant.pationname,
@@ -116,16 +124,9 @@ $("#doctorSelectionId").on("change", function () {
           status: apoinmant.status,
           paymentStatus: apoinmant.doctorChargeStetus,
         };
-        console.log(apinmat);
 
         trackingPatients.push(apinmat);
       }
-      console.log("************************************");
-
-      console.log(
-        "=+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",
-      );
-      console.log(trackingPatients[0]);
 
       // =============
       updatePatientList();
@@ -177,15 +178,16 @@ $("#doctorSelectionId").on("change", function () {
 //   });
 // });
 
-// function inputStyles() {
-//   // $("#payhereId").closest(".form-group").show();
-//   // $("#payhereId").closest(".form-group").hide();
-//   $("#descriptionGrup").hide();
-//   $("#fullPaymentGrup").hide();
-//   $("#paidPaymentGrup").hide();
-//   $("#payHereGrup").hide();
-//   $("#payHereGrup").hide();
-// }
+function inputStyles() {
+  // $("#payhereId").closest(".form-group").show();
+
+  // $("#payhereId").closest(".form-group").hide();
+  $("#descriptionGrup").hide();
+  $("#fullPaymentGrup").hide();
+  $("#paidPaymentGrup").hide();
+  $("#payHereGrup").hide();
+  $("#payHereGrup").hide();
+}
 
 // =============================
 
@@ -364,9 +366,7 @@ function updatePatientList() {
         : '<span class="status-badge status-unpaid">Unpaid</span>';
 
     html += `
-                    <div class="patient-tracking-item" data-patient-id="${patient.id}"  data-patient-name="${patient.name}"
-     data-patient-time="${patient.time}"
-     onclick="onPatientItemClick(this)" onclick="onPatientItemClick(this)">
+                    <div class="patient-tracking-item" data-patient-id="${patient.id}" onclick="onPatientItemClick(this)">
                         <div class="patient-info">
                             <h4>${patient.name}</h4>
                             <p>${patient.time} | Treatment: Rs. ${patient.treatment} | ${paymentStatus}</p>
@@ -645,10 +645,7 @@ function updatePatientsTable() {
 
 function onPatientItemClick(div) {
   const patientId = div.dataset.patientId;
-  const name = div.dataset.patientName;
-  const time = div.dataset.patientTime;
 
-  // alert(patientId);
   localStorage.setItem("selctionCustormerId", patientId);
   $.ajax({
     url: "http://localhost:8080/api/v1/dentalcare/AppointmentController/getallAppointment",
@@ -661,31 +658,21 @@ function onPatientItemClick(div) {
       console.log(res);
       let appointments = res.data;
       console.log(appointments);
-
+      // var relaventApoinment = "";
       for (let i = 0; i < appointments.length; i++) {
         const pt = appointments[i];
-        if (pt.pationId == patientId && pt.appointmentTime == time) {
-          localStorage.setItem("selectPationObject", JSON.stringify(pt));
-
-          $("#descriptionId").val(pt.description);
-          Swal.fire({
-            toast: true,
-            position: "top-end",
-            icon: "success",
-            title: "Ok pation selected success fully",
-            iconColor: "#4caf50",
-            showConfirmButton: false,
-            timer: 1000,
-          });
-
-          // const data = localStorage.getItem("selectPationObject");
-          // const ptObject = JSON.parse(data);
-          // console.log(ptObject);
-          // console.log("777777777777");
+        if (pt.pationId == patientId) {
+          $("#descriptionGrup").show();
+          $("#fullPaymentGrup").show();
+          $("#paidPaymentGrup").show();
+          $("#payHereGrup").show();
 
           break;
         } else {
-          // alert("Pation not found");
+          $("#descriptionGrup").hide();
+          $("#fullPaymentGrup").hide();
+          $("#paidPaymentGrup").hide();
+          $("#payHereGrup").hide();
         }
       }
     },
@@ -699,106 +686,12 @@ function onPatientItemClick(div) {
 }
 
 function saveDeatilesPationsDeatiles() {
-  // alert()
   const pationId = localStorage.getItem("selctionCustormerId");
   const description = $("#descriptionId").val();
   const fullpaymentId = $("#fullpaymentId").val();
-  const paidPaymentId = $("#paidPaymentId").val(); // meke thamai danata eya  gewala thiyena mudala penwanne  palaweni paranam 0.00
+  const paidPaymentId = $("#paidPaymentId").val();
   const payhereId = $("#payhereId").val();
-
-  if (!fullpaymentId) {
-    Swal.fire({
-      icon: "error",
-      title: " need Full payment  for pation !",
-      text: "",
-
-      toast: true,
-      position: "top-end",
-
-      background: "#13131f",
-      color: "#f1f1f1",
-
-      iconColor: "#ff4d4f",
-
-      // confirmButtonText: "OK",
-      confirmButtonColor: "#ff4d5081",
-
-      // showClass: {
-      //   popup: "animate__animated animate__fadeInDown",
-      // },
-      // hideClass: {
-      //   popup: "animate__animated animate__fadeOutUp",
-      // },
-
-      timer: 2000,
-      timerProgressBar: true,
-      // allowOutsideClick: false,
-    });
-    return;
-  }
-
-  if (!payhereId) {
-    Swal.fire({
-      icon: "error",
-      title: " need payment as a first pation !",
-      text: "",
-      toast: true,
-      position: "top-end",
-      background: "#13131f",
-      color: "#f1f1f1",
-      iconColor: "#ff4d4f",
-      confirmButtonColor: "#ff4d5081",
-      timer: 2000,
-      timerProgressBar: true,
-    });
-    return;
-  }
-  const data = localStorage.getItem("selectPationObject");
-  const ptObject = JSON.parse(data);
-
-  //  private String apoinmantId;
-
-  //   @NotBlank(message = " pation id is mandatory")
-  //   private String pationId;
-
-  //   @NotBlank(message = " pation appoinmant time is mandatory")
-  //   private String paymentTime;
-
-  //   @NotBlank(message = "pation description is mandatory")
-  //   private String description;
-
-  //   @NotBlank(message = " fullpayment is mandatory")
-  //   private String fullpayment;
-
-  //   @NotBlank(message = " user payment is mandatory")
-  //   private String userpayment;
-
-  $.ajax({
-    url: "http://localhost:8080/api/v1/dentalcare/AppointmentController/updateApoinmant",
-    method: "GET",
-    contentType: "application/json",
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("usertoken"),
-    },
-    data: JSON.stringify({
-      apoinmantId: ptObject.appointmentId,
-      pationId: ptObject.pationId,
-      paymentTime: ptObject.appointmentTime,
-      description: description,
-      fullpayment: fullpaymentId,
-      userpayment: payhereId,
-    }),
-    success: function (res) {},
-
-    error: function (err) {},
-  });
 }
-
-// detect the typing input fild
-$("#payhereId").on("input", function () {
-  console.log($(this).val());
-  $("#paidPaymentId").val($(this).val());
-});
 
 function savePatientFromModal() {
   const name = document.getElementById("modalPatientName").value.trim();

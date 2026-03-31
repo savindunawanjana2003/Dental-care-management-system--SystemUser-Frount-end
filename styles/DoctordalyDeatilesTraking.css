@@ -385,3 +385,32 @@ select.form-control option {
 .tracking-card::-webkit-scrollbar-thumb:hover {
     background: #005bea;
 }
+
+/* ============= */
+/* Common badge */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Paid - Green */
+.status-paid {
+  background: linear-gradient(45deg, #00c853, #64dd17);
+}
+
+/* Unpaid - Red */
+.status-unpaid {
+  background: linear-gradient(45deg, #ff1744, #ff5252);
+}
+
+/* Pending - Orange / Yellow */
+.status-pending-payment {
+  background: linear-gradient(45deg, #ff9800, #ffc107);
+  color: #000; /* better visibility */
+}
+
+
+/* ================== */

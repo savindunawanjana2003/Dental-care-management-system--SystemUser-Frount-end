@@ -1,3 +1,9 @@
+// window.onload = function () {};
+
+$(document).ready(function () {
+  sayHello();
+});
+
 const patterns = {
   name: /^[A-Za-z\s]{3,}$/,
   email: /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/,
@@ -7,6 +13,8 @@ const patterns = {
   oldNICPattern: /^[0-9]{9}[vVxX]$/,
   newNICPattern: /^[0-9]{12}$/,
 };
+
+refreshUsersBtn;
 
 const validateForm = (isAddMode = true) => {
   const name = $("#userFullName").val().trim();
@@ -459,6 +467,11 @@ $("#refreshUsersBtn").on("click", () => {
   getAllUsers();
   clear();
 });
+
+function sayHello() {
+  getAllUsers();
+  clear();
+}
 
 // ===================clik table body and  get relavent row data ===================
 

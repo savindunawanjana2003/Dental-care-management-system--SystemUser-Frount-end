@@ -1,5 +1,9 @@
 // Sample Data
 
+// $(document).ready(function () {
+
+// });
+
 window.onload = function () {
   // inputStyles();
   // const selectedDoctor = "D001";
@@ -358,10 +362,21 @@ function updatePatientList() {
             ? "🦷 Treatment"
             : "✔️ Completed";
 
-    const paymentStatus =
-      patient.paymentStatus === "paid"
-        ? '<span class="status-badge status-paid">Paid</span>'
-        : '<span class="status-badge status-unpaid">Unpaid</span>';
+    // const paymentStatus =
+    //   patient.paymentStatus === "paid"
+    //     ? '<span class="status-badge status-paid">Paid</span>'
+    //     : '<span class="status-badge status-unpaid">Unpaid</span>';
+
+    let paymentStatus = "";
+
+    if (patient.paymentStatus === "paid") {
+      paymentStatus = '<span class="status-badge status-paid">Paid</span>';
+    } else if (patient.paymentStatus === "progress") {
+      paymentStatus =
+        '<span class="status-badge status-pending-payment">progress</span>';
+    } else {
+      paymentStatus = '<span class="status-badge status-unpaid">Unpaid</span>';
+    }
 
     html += `
                     <div class="patient-tracking-item" data-patient-id="${patient.id}"  data-patient-name="${patient.name}"
@@ -756,26 +771,9 @@ function saveDeatilesPationsDeatiles() {
   const data = localStorage.getItem("selectPationObject");
   const ptObject = JSON.parse(data);
 
-  //  private String apoinmantId;
-
-  //   @NotBlank(message = " pation id is mandatory")
-  //   private String pationId;
-
-  //   @NotBlank(message = " pation appoinmant time is mandatory")
-  //   private String paymentTime;
-
-  //   @NotBlank(message = "pation description is mandatory")
-  //   private String description;
-
-  //   @NotBlank(message = " fullpayment is mandatory")
-  //   private String fullpayment;
-
-  //   @NotBlank(message = " user payment is mandatory")
-  //   private String userpayment;
-
   $.ajax({
     url: "http://localhost:8080/api/v1/dentalcare/AppointmentController/updateApoinmant",
-    method: "GET",
+    method: "POST",
     contentType: "application/json",
     headers: {
       Authorization: "Bearer " + localStorage.getItem("usertoken"),
@@ -788,9 +786,47 @@ function saveDeatilesPationsDeatiles() {
       fullpayment: fullpaymentId,
       userpayment: payhereId,
     }),
-    success: function (res) {},
+    success: function (res) {
+      let respons = res.data;
+      Swal.fire({
+        icon: "success",
+        title: respons,
+        html: `
+    <div style="font-family: 'Inter', sans-serif;">
+      <p style="margin: 10px 0; color: #e0e0e0;">Redirecting to dashboard...</p>
+      <div style="width: 100%; height: 2px; background: rgba(255,255,255,0.1); margin-top: 15px;">
+        <div id="progress" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00b09b, #96c93d); transition: width 2s linear;"></div>
+      </div>
+    </div>
+  `,
+        background: "rgba(255, 255, 255, 0.05)",
+        backdrop: "rgba(0,0,30,0.7)",
+        color: "#ffffff",
+        iconColor: "#96c93d",
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: () => {
+          const progress = document.getElementById("progress");
+          if (progress) {
+            setTimeout(() => {
+              progress.style.width = "100%";
+            }, 50);
+          }
+        },
+        customClass: {
+          popup: "glassmorphism-popup",
+        },
+      }).then(() => {
+        setTimeout(() => {
+          // window.location.href = "../pages/Dashbord.html";
+          updateTrackingUI();
+        }, 1500);
+      });
+    },
 
-    error: function (err) {},
+    error: function (err) {
+      alert("error ekak thiyei !");
+    },
   });
 }
 

@@ -30,6 +30,9 @@
     <!-- ============================================= -->
 
     <link rel="stylesheet" href="../styles/Systemuser.css" />
+        <link rel="stylesheet" href="../styles/Departmant.css" />
+        <link rel="stylesheet" href="../styles/homePage.css" />
+
     <link rel="stylesheet" href="../styles/dashbord.css" />
         <link rel="stylesheet" href="../styles/Appointment.css" />
         <link rel="stylesheet" href="../styles/DoctordalyDeatilesTraking.css">
@@ -554,143 +557,672 @@
         </header>
 
         <!-- Dashboard Section -->
-        <section id="dashboardSection" class="section-container active">
-          <!-- Stats Cards -->
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-icon">
-                <i class="fas fa-users"></i>
-              </div>
-              <div class="stat-info">
-                <h3>Total Patients</h3>
-                <h2>1,245</h2>
-                <p>↑ 12%</p>
+       <section id="dashboardSection" class="section-container active">
+  <!-- Professional Dashboard Header with Dental Icon -->
+  <div class="dashboard-header-modern">
+    <div class="dashboard-title-area">
+      <div class="dental-icon-glow">
+        <i class="fas fa-tooth"></i>
+      </div>
+      <div>
+        <h1>Clinical Dashboard</h1>
+        <p>Patient insights & practice performance</p>
+      </div>
+    </div>
+    <div class="date-badge">
+      <i class="fas fa-calendar-alt"></i>
+      <span id="currentDateDisplay"></span>
+    </div>
+  </div>
+
+  <!-- Stats Cards Grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-users"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Total Patients</h3>
+        <h2>1,245</h2>
+        <p><i class="fas fa-arrow-up"></i> +12% this month</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-calendar-check"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Appointments</h3>
+        <h2>18</h2>
+        <p>Today</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-procedures"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Treatments</h3>
+        <h2>7</h2>
+        <p>Ongoing</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-dollar-sign"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Revenue</h3>
+        <h2>$2,450</h2>
+        <p>Today's collection</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Grid: 2 Columns -->
+  <div class="dashboard-grid">
+    <!-- LEFT COLUMN -->
+    <div class="dashboard-col">
+      <!-- Customer Base Section (Patient Demographics) -->
+      <div class="dashboard-card customer-base-card">
+        <div class="card-header-official">
+          <div class="header-left">
+            <i class="fas fa-chart-pie"></i>
+            <h3>Customer Base Overview</h3>
+          </div>
+          <span class="badge-official">Patient Analytics</span>
+        </div>
+        <div class="card-body-official">
+          <div class="demographics-row">
+            <!-- Age Distribution Chart -->
+            <div class="chart-container">
+              <h4><i class="fas fa-chart-line"></i> Age Distribution</h4>
+              <canvas id="ageDistributionChart" width="200" height="200"></canvas>
+              <div class="chart-stats">
+                <span><i class="fas fa-child"></i> 0-18: 24%</span>
+                <span><i class="fas fa-user"></i> 19-35: 38%</span>
+                <span><i class="fas fa-user-plus"></i> 36-50: 22%</span>
+                <span><i class="fas fa-user-graduate"></i> 50+: 16%</span>
               </div>
             </div>
-            <div class="stat-card">
-              <div class="stat-icon">
-                <i class="fas fa-calendar-check"></i>
-              </div>
-              <div class="stat-info">
-                <h3>Appointments</h3>
-                <h2>18</h2>
-                <p>Today</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">
-                <i class="fas fa-procedures"></i>
-              </div>
-              <div class="stat-info">
-                <h3>Treatments</h3>
-                <h2>7</h2>
-                <p>Ongoing</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">
-                <i class="fas fa-dollar-sign"></i>
-              </div>
-              <div class="stat-info">
-                <h3>Revenue</h3>
-                <h2>$2,450</h2>
-                <p>Today</p>
+            <!-- Gender Distribution -->
+            <div class="chart-container">
+              <h4><i class="fas fa-venus-mars"></i> Gender Ratio</h4>
+              <canvas id="genderDistributionChart" width="200" height="200"></canvas>
+              <div class="chart-stats">
+                <span><i class="fas fa-female"></i> Female: 58%</span>
+                <span><i class="fas fa-male"></i> Male: 42%</span>
               </div>
             </div>
           </div>
-
-          <!-- Recent Activity -->
-          <div class="management-section">
-            <h3 class="section-header" style="margin-bottom: 15px">
-              <span><i class="fas fa-history"></i> Recent Activity</span>
-            </h3>
-            <div class="table-responsive">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <td>
-                      <i class="fas fa-user-plus" style="color: #00c6fb"></i>
-                      New patient registered: Mrs. Perera
-                    </td>
-                    <td style="text-align: right">5 min ago</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <i
-                        class="fas fa-notes-medical"
-                        style="color: #00c6fb"
-                      ></i>
-                      Treatment completed for Mr. Fernando
-                    </td>
-                    <td style="text-align: right">30 min ago</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <i
-                        class="fas fa-shopping-cart"
-                        style="color: #00c6fb"
-                      ></i>
-                      New order placed #INV-2024-001
-                    </td>
-                    <td style="text-align: right">1 hour ago</td>
-                  </tr>
-                </tbody>
-              </table>
+          <div class="customer-growth">
+            <div class="growth-indicator">
+              <i class="fas fa-chart-simple"></i>
+              <span>New patients this month: <strong>+142</strong></span>
+              <span class="trend-up">↑ 18%</span>
+            </div>
+            <div class="patient-loyalty">
+              <i class="fas fa-heartbeat"></i>
+              <span>Returning patients: <strong>68%</strong></span>
             </div>
           </div>
-        </section>
+        </div>
+      </div>
 
+      <!-- Recent Activity Section -->
+      <div class="dashboard-card activity-card">
+        <div class="card-header-official">
+          <div class="header-left">
+            <i class="fas fa-history"></i>
+            <h3>Recent Activity</h3>
+          </div>
+          <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="card-body-official">
+          <div class="activity-timeline">
+            <div class="activity-item">
+              <div class="activity-icon new-patient">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="activity-details">
+                <p class="activity-title">New patient registered: Mrs. Perera</p>
+                <p class="activity-time">5 minutes ago</p>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon treatment">
+                <i class="fas fa-notes-medical"></i>
+              </div>
+              <div class="activity-details">
+                <p class="activity-title">Treatment completed for Mr. Fernando</p>
+                <p class="activity-time">30 minutes ago</p>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon order">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+              <div class="activity-details">
+                <p class="activity-title">New order placed #INV-2024-001</p>
+                <p class="activity-time">1 hour ago</p>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon appointment">
+                <i class="fas fa-calendar-plus"></i>
+              </div>
+              <div class="activity-details">
+                <p class="activity-title">Appointment scheduled: Mrs. Kumari - Dr. Silva</p>
+                <p class="activity-time">2 hours ago</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="dashboard-col">
+      <!-- Today's Appointments Summary -->
+      <div class="dashboard-card appointment-summary-card">
+        <div class="card-header-official">
+          <div class="header-left">
+            <i class="fas fa-clock"></i>
+            <h3>Today's Schedule</h3>
+          </div>
+          <span class="badge-official">8 Appointments</span>
+        </div>
+        <div class="card-body-official">
+          <div class="appointment-list">
+            <div class="appointment-item">
+              <div class="appointment-time">09:00 AM</div>
+              <div class="appointment-info">
+                <strong>Mrs. Perera</strong>
+                <span>Dr. Silva - General Checkup</span>
+              </div>
+              <div class="appointment-status confirmed">Confirmed</div>
+            </div>
+            <div class="appointment-item">
+              <div class="appointment-time">10:30 AM</div>
+              <div class="appointment-info">
+                <strong>Mr. Fernando</strong>
+                <span>Dr. Perera - Root Canal</span>
+              </div>
+              <div class="appointment-status pending">Pending</div>
+            </div>
+            <div class="appointment-item">
+              <div class="appointment-time">01:00 PM</div>
+              <div class="appointment-info">
+                <strong>Mrs. Kumari</strong>
+                <span>Dr. Silva - Cleaning</span>
+              </div>
+              <div class="appointment-status confirmed">Confirmed</div>
+            </div>
+            <div class="appointment-item">
+              <div class="appointment-time">03:30 PM</div>
+              <div class="appointment-info">
+                <strong>Mr. Jayawardena</strong>
+                <span>Dr. Perera - Consultation</span>
+              </div>
+              <div class="appointment-status confirmed">Confirmed</div>
+            </div>
+          </div>
+          <button class="btn-view-schedule">
+            <i class="fas fa-calendar-alt"></i> View Full Schedule
+          </button>
+        </div>
+      </div>
+
+      <!-- Treatment Summary / Quick Stats -->
+      <div class="dashboard-card treatment-summary-card">
+        <div class="card-header-official">
+          <div class="header-left">
+            <i class="fas fa-chart-bar"></i>
+            <h3>Treatment Summary</h3>
+          </div>
+          <i class="fas fa-tooth dental-icon-small"></i>
+        </div>
+        <div class="card-body-official">
+          <div class="treatment-stats">
+            <div class="treatment-stat-item">
+              <span class="treatment-name">Root Canal</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 45%"></div>
+              </div>
+              <span class="treatment-count">12 treatments</span>
+            </div>
+            <div class="treatment-stat-item">
+              <span class="treatment-name">Dental Cleaning</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 78%"></div>
+              </div>
+              <span class="treatment-count">24 treatments</span>
+            </div>
+            <div class="treatment-stat-item">
+              <span class="treatment-name">Orthodontics</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 32%"></div>
+              </div>
+              <span class="treatment-count">8 treatments</span>
+            </div>
+            <div class="treatment-stat-item">
+              <span class="treatment-name">Extractions</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 28%"></div>
+              </div>
+              <span class="treatment-count">6 treatments</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="dashboard-card quick-actions-card">
+        <div class="card-header-official">
+          <div class="header-left">
+            <i class="fas fa-bolt"></i>
+            <h3>Quick Actions</h3>
+          </div>
+        </div>
+        <div class="card-body-official">
+          <div class="action-buttons-grid">
+            <button class="quick-action-btn"><i class="fas fa-user-plus"></i> New Patient</button>
+            <button class="quick-action-btn"><i class="fas fa-calendar-plus"></i> New Appointment</button>
+            <button class="quick-action-btn"><i class="fas fa-file-invoice-dollar"></i> Record Payment</button>
+            <button class="quick-action-btn"><i class="fas fa-chart-line"></i> View Reports</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
         <!-- Hospital Departments Section -->
         <section id="departmentsSection" class="section-container">
-          <div class="management-section">
-            <h2><i class="fas fa-hospital"></i> Hospital Departments</h2>
-            <p style="color: rgba(255, 255, 255, 0.6)">
-              Manage hospital departments and specialties
-            </p>
+  <div class="departments-wrapper">
+    <!-- Modern Header with Stats -->
+    <div class="departments-header-modern">
+      <div class="departments-header-left">
+        <div class="dept-icon-badge">
+          <i class="fas fa-hospital-user"></i>
+        </div>
+        <div>
+          <h1><i class="fas fa-building"></i> Clinical Departments</h1>
+          <p>Manage hospital departments, specialties, and clinical teams</p>
+        </div>
+      </div>
+      <div class="dept-stats-mini">
+        <div class="stat-item">
+          <i class="fas fa-chart-line"></i>
+          <span>Total Departments: <strong id="totalDepartmentsCount">8</strong></span>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-users"></i>
+          <span>Total Staff: <strong id="totalStaffCount">124</strong></span>
+        </div>
+      </div>
+    </div>
 
-            <div class="table-responsive" style="margin-top: 20px">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Department ID</th>
-                    <th>Department Name</th>
-                    <th>Head of Department</th>
-                    <th>Total Staff</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>DEPT-001</td>
-                    <td>General Dentistry</td>
-                    <td>Dr. Perera</td>
-                    <td>12</td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn edit">
-                          <i class="fas fa-edit"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>DEPT-002</td>
-                    <td>Orthodontics</td>
-                    <td>Dr. Silva</td>
-                    <td>8</td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="action-btn edit">
-                          <i class="fas fa-edit"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+    <!-- Action Bar -->
+    <div class="dept-action-bar">
+      <div class="search-section">
+        <div class="search-box-modern">
+          <i class="fas fa-search"></i>
+          <input 
+            type="text" 
+            id="searchDepartmentInput" 
+            placeholder="Search by department name, HOD or ID..."
+            onkeyup="filterDepartments()"
+          >
+        </div>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">All Departments</button>
+          <button class="filter-btn" data-filter="dental">🦷 Dental</button>
+          <button class="filter-btn" data-filter="medical">🏥 Medical</button>
+          <button class="filter-btn" data-filter="support">⚕️ Support</button>
+        </div>
+      </div>
+      <div class="action-buttons-dept">
+        <button class="btn-primary-dept" id="addDepartmentBtn">
+          <i class="fas fa-plus-circle"></i> Add Department
+        </button>
+        <button class="btn-secondary-dept" id="refreshDeptBtn">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- Department Stats Cards -->
+    <div class="dept-stats-grid">
+      <div class="dept-stat-card">
+        <div class="dept-stat-icon dental">
+          <i class="fas fa-tooth"></i>
+        </div>
+        <div class="dept-stat-info">
+          <h3>Dental Specialties</h3>
+          <h2>5</h2>
+          <p>Active departments</p>
+        </div>
+      </div>
+      <div class="dept-stat-card">
+        <div class="dept-stat-icon medical">
+          <i class="fas fa-heartbeat"></i>
+        </div>
+        <div class="dept-stat-info">
+          <h3>Medical Units</h3>
+          <h2>3</h2>
+          <p>Supporting departments</p>
+        </div>
+      </div>
+      <div class="dept-stat-card">
+        <div class="dept-stat-icon staff">
+          <i class="fas fa-user-md"></i>
+        </div>
+        <div class="dept-stat-info">
+          <h3>Specialists</h3>
+          <h2>24</h2>
+          <p>Registered doctors</p>
+        </div>
+      </div>
+      <div class="dept-stat-card">
+        <div class="dept-stat-icon active-patients">
+          <i class="fas fa-procedures"></i>
+        </div>
+        <div class="dept-stat-info">
+          <h3>Active Treatments</h3>
+          <h2>47</h2>
+          <p>Ongoing cases</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Departments Table -->
+    <div class="dept-table-container">
+      <div class="table-header-modern">
+        <h3><i class="fas fa-list-ul"></i> Department Directory</h3>
+        <div class="table-info">
+          <span><i class="fas fa-database"></i> Showing <span id="displayCount">6</span> departments</span>
+        </div>
+      </div>
+      
+      <div class="table-responsive-modern">
+        <table class="dept-table">
+          <thead>
+            <tr>
+              <th><i class="fas fa-hashtag"></i> Dept. ID</th>
+              <th><i class="fas fa-building"></i> Department Name</th>
+              <th><i class="fas fa-user-tie"></i> Head of Department</th>
+              <th><i class="fas fa-users"></i> Total Staff</th>
+              <th><i class="fas fa-stethoscope"></i> Specialties</th>
+              <th><i class="fas fa-chart-line"></i> Status</th>
+              <th><i class="fas fa-cog"></i> Actions</th>
+            </tr>
+          </thead>
+          <tbody id="departmentsTableBody">
+            <tr>
+              <td><span class="dept-id-badge">DEPT-001</span></td>
+              <td>
+                <div class="dept-name-cell">
+                  <i class="fas fa-tooth dept-icon-dental"></i>
+                  <span>General Dentistry</span>
+                </div>
+              </td>
+              <td>
+                <div class="hod-info">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Dr. Kamal Perera</span>
+                </div>
+              </td>
+              <td><span class="staff-count">12</span></td>
+              <td>
+                <div class="specialty-tags">
+                  <span class="tag">Restorative</span>
+                  <span class="tag">Preventive</span>
+                  <span class="tag">Cosmetic</span>
+                </div>
+              </td>
+              <td><span class="status-badge active">Active</span></td>
+              <td>
+                <div class="action-buttons-dept">
+                  <button class="action-icon edit" onclick="editDepartment('DEPT-001')" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-icon view" onclick="viewDepartment('DEPT-001')" title="View Details">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="action-icon staff" onclick="viewStaff('DEPT-001')" title="View Staff">
+                    <i class="fas fa-users"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="dept-id-badge">DEPT-002</span></td>
+              <td>
+                <div class="dept-name-cell">
+                  <i class="fas fa-smile dept-icon-ortho"></i>
+                  <span>Orthodontics</span>
+                </div>
+              </td>
+              <td>
+                <div class="hod-info">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Dr. Nimali Silva</span>
+                </div>
+              </td>
+              <td><span class="staff-count">8</span></td>
+              <td>
+                <div class="specialty-tags">
+                  <span class="tag">Braces</span>
+                  <span class="tag">Aligners</span>
+                  <span class="tag">Retainers</span>
+                </div>
+              </td>
+              <td><span class="status-badge active">Active</span></td>
+              <td>
+                <div class="action-buttons-dept">
+                  <button class="action-icon edit" onclick="editDepartment('DEPT-002')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-icon view" onclick="viewDepartment('DEPT-002')">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="action-icon staff" onclick="viewStaff('DEPT-002')">
+                    <i class="fas fa-users"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="dept-id-badge">DEPT-003</span></td>
+              <td>
+                <div class="dept-name-cell">
+                  <i class="fas fa-microscope dept-icon-endodontic"></i>
+                  <span>Endodontics</span>
+                </div>
+              </td>
+              <td>
+                <div class="hod-info">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Dr. Ruwan Jayawardena</span>
+                </div>
+              </td>
+              <td><span class="staff-count">6</span></td>
+              <td>
+                <div class="specialty-tags">
+                  <span class="tag">Root Canal</span>
+                  <span class="tag">Microsurgery</span>
+                  <span class="tag">Apicoectomy</span>
+                </div>
+              </td>
+              <td><span class="status-badge active">Active</span></td>
+              <td>
+                <div class="action-buttons-dept">
+                  <button class="action-icon edit" onclick="editDepartment('DEPT-003')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-icon view" onclick="viewDepartment('DEPT-003')">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="action-icon staff" onclick="viewStaff('DEPT-003')">
+                    <i class="fas fa-users"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="dept-id-badge">DEPT-004</span></td>
+              <td>
+                <div class="dept-name-cell">
+                  <i class="fas fa-teeth dept-icon-prostho"></i>
+                  <span>Prosthodontics</span>
+                </div>
+              </td>
+              <td>
+                <div class="hod-info">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Dr. Amara Fernando</span>
+                </div>
+              </td>
+              <td><span class="staff-count">7</span></td>
+              <td>
+                <div class="specialty-tags">
+                  <span class="tag">Crowns</span>
+                  <span class="tag">Bridges</span>
+                  <span class="tag">Dentures</span>
+                </div>
+              </td>
+              <td><span class="status-badge active">Active</span></td>
+              <td>
+                <div class="action-buttons-dept">
+                  <button class="action-icon edit" onclick="editDepartment('DEPT-004')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-icon view" onclick="viewDepartment('DEPT-004')">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="action-icon staff" onclick="viewStaff('DEPT-004')">
+                    <i class="fas fa-users"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="dept-id-badge">DEPT-005</span></td>
+              <td>
+                <div class="dept-name-cell">
+                  <i class="fas fa-child dept-icon-pedo"></i>
+                  <span>Pediatric Dentistry</span>
+                </div>
+              </td>
+              <td>
+                <div class="hod-info">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Dr. Chathuri Perera</span>
+                </div>
+              </td>
+              <td><span class="staff-count">5</span></td>
+              <td>
+                <div class="specialty-tags">
+                  <span class="tag">Child Care</span>
+                  <span class="tag">Preventive</span>
+                  <span class="tag">Sedation</span>
+                </div>
+              </td>
+              <td><span class="status-badge active">Active</span></td>
+              <td>
+                <div class="action-buttons-dept">
+                  <button class="action-icon edit" onclick="editDepartment('DEPT-005')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-icon view" onclick="viewDepartment('DEPT-005')">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="action-icon staff" onclick="viewStaff('DEPT-005')">
+                    <i class="fas fa-users"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="dept-id-badge">DEPT-006</span></td>
+              <td>
+                <div class="dept-name-cell">
+                  <i class="fas fa-syringe dept-icon-oral"></i>
+                  <span>Oral & Maxillofacial Surgery</span>
+                </div>
+              </td>
+              <td>
+                <div class="hod-info">
+                  <i class="fas fa-user-circle"></i>
+                  <span>Dr. Sanjaya Rathnayake</span>
+                </div>
+              </td>
+              <td><span class="staff-count">9</span></td>
+              <td>
+                <div class="specialty-tags">
+                  <span class="tag">Extractions</span>
+                  <span class="tag">Implants</span>
+                  <span class="tag">Surgery</span>
+                </div>
+              </td>
+              <td><span class="status-badge active">Active</span></td>
+              <td>
+                <div class="action-buttons-dept">
+                  <button class="action-icon edit" onclick="editDepartment('DEPT-006')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-icon view" onclick="viewDepartment('DEPT-006')">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="action-icon staff" onclick="viewStaff('DEPT-006')">
+                    <i class="fas fa-users"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Recent Department Activity -->
+    <div class="dept-activity-card">
+      <div class="activity-header">
+        <h3><i class="fas fa-clock"></i> Recent Department Activity</h3>
+        <span class="auto-refresh"><i class="fas fa-sync-alt"></i> Live updates</span>
+      </div>
+      <div class="activity-feed">
+        <div class="feed-item">
+          <div class="feed-icon add">
+            <i class="fas fa-plus"></i>
           </div>
-        </section>
+          <div class="feed-content">
+            <p><strong>Orthodontics</strong> department added 2 new staff members</p>
+            <span class="feed-time">15 minutes ago</span>
+          </div>
+        </div>
+        <div class="feed-item">
+          <div class="feed-icon update">
+            <i class="fas fa-edit"></i>
+          </div>
+          <div class="feed-content">
+            <p><strong>General Dentistry</strong> updated weekly schedule</p>
+            <span class="feed-time">1 hour ago</span>
+          </div>
+        </div>
+        <div class="feed-item">
+          <div class="feed-icon achievement">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <div class="feed-content">
+            <p><strong>Oral Surgery</strong> completed 50 successful implant procedures this month</p>
+            <span class="feed-time">3 hours ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
         <!-- Doctor Section -->
         <!-- <section id="doctorSection" class="section-container">
@@ -2026,6 +2558,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="../js/dashbord.js"></script>
+        <script src="../js/Departmant.js"></script>
+     <script src="../js/home.js"></script>
     <script src="../js/peation.js"></script>
     <script src="../js/SystemUser2.js"></script>
     <script src="../js/Doctor.js"></script>

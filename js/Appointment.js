@@ -3,6 +3,10 @@ $(document).ready(function () {
   lodeNextId();
 });
 
+
+
+
+
 function lodeNextId() {
   $.ajax({
     url: "http://localhost:8080/api/v1/dentalcare/AppointmentController/getNextId",

@@ -23,7 +23,6 @@ function togglePassword() {
     toggleIcon.classList.add("fa-eye");
   }
 }
-
 // ============================
 
 // Form Submit with Loading Animation
@@ -181,6 +180,9 @@ $("#loginButten").on("click", () => {
     success: function (data, textStatus, jqXHR) {
       // console.log(data);
       localStorage.setItem("Rolle", data.message);
+
+      const loading = document.getElementById("loading");
+      loading.classList.add("active");
 
       if (data.status === 200) {
         // console.log(data.messege);

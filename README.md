@@ -2,7 +2,7 @@
 
 [![Java](https://img.shields.io/badge/Backend-Java%2017%20%2F%20Spring%20Boot-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Security](https://img.shields.io/badge/Security-JWT%20%26%20Spring%20Security-red.svg)](https://spring.io/projects/spring-security)
-[![Frontend](https://img.shields.io/badge/Frontend-Multi--App%20%28React%20%2F%20Bootstrap%29-blue.svg)](https:/Html/)
+[![Frontend](https://img.shields.io/badge/Frontend-Multi--App%20%28React%20%2F%20Bootstrap%29-blue.svg)])
 
 An advanced, enterprise-grade **Dental Clinic Management System (DentalCare)** engineered using a decoupled, **Multi-Frontend Architecture** integrated with a secure **Spring Boot REST API** backend. This system cleanly isolates operational boundaries by separating clinical staff controls from customer/patient management touchpoints.
 
